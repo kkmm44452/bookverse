@@ -1,0 +1,70 @@
+<header class="header">
+
+
+<div class="top-bar">
+
+
+
+<h1>
+📚 BookVerse
+</h1>
+
+
+
+<div class="search">
+
+<input
+
+[(ngModel)]="searchText"
+
+(keydown.enter)="searchBooks()"
+
+placeholder="Search books..."
+
+>
+
+
+<button
+(click)="searchBooks()">
+
+🔍
+
+</button>
+
+</div>
+
+
+
+<button 
+class="profile"
+(click)="openProfile()">
+
+👤
+
+</button>
+
+
+</div>
+
+
+
+<nav class="genres">
+
+
+@for(genre of genres; track genre){
+
+<a
+(click)="openGenre(genre)">
+
+{{genre}}
+
+</a>
+
+
+}
+
+
+</nav>
+
+
+</header>

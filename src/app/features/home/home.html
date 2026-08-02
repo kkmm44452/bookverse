@@ -1,0 +1,170 @@
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Welcome to BookVerse 📚
+        </h1>
+
+        <p>
+            Discover millions of books, authors and stories
+            from the world's largest open library.
+        </p>
+
+
+        <button>
+            Explore Books
+        </button>
+
+    </div>
+
+</section>
+<section class="books-section">
+
+
+<h2>
+📚 Popular Books
+</h2>
+
+
+
+@if(loading){
+
+<div class="loader">
+
+Loading books...
+
+</div>
+
+}
+
+
+
+@if(!loading && books.length > 0){
+
+
+<div class="book-grid">
+
+
+@for(book of books; track book.key){
+
+
+<div 
+class="book-card"
+(click)="openBook(book)">
+
+
+<img
+[src]="getCover(book)"
+[alt]="book.title"
+>
+
+
+
+<div class="book-info">
+
+
+<h3>
+{{book.title}}
+</h3>
+
+
+<p>
+{{book.author_name?.[0] || 'Unknown'}}
+</p>
+
+
+</div>
+
+
+</div>
+
+
+}
+
+
+</div>
+
+
+}
+
+
+
+@if(!loading && books.length === 0){
+
+<p>
+No books found.
+</p>
+
+}
+
+
+</section>
+
+
+<!-- <section class="books-section">
+
+<h2>
+    Popular Books
+</h2>
+
+
+@if(loading){
+
+<div class="loader">
+    Loading books...
+</div>
+
+}
+
+
+@if(!loading){
+
+
+<div class="book-grid">
+
+
+@for(book of books; track book.key){
+
+
+<div class="book-card">
+
+
+<img
+[src]="getCover(book)"
+[alt]="book.title">
+
+
+<div class="book-info">
+
+
+<h3>
+{{book.title}}
+</h3>
+
+
+<p>
+{{book.author_name?.[0] || 'Unknown Author'}}
+</p>
+
+
+<span>
+{{book.first_publish_year || 'N/A'}}
+</span>
+
+
+</div>
+
+
+</div>
+
+
+}
+
+
+</div>
+
+
+}
+
+</section> -->

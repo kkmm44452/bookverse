@@ -1,0 +1,19 @@
+<h1>👤 Authors</h1>
+
+
+<input #author>
+
+
+<button
+(click)="searchAuthor(author.value)">
+Search
+</button>
+
+
+@for(item of authors; track item.key){
+
+<p>
+{{item.author_name}}
+</p>
+
+}

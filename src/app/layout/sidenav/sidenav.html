@@ -1,0 +1,79 @@
+<button 
+class="hamburger"
+(click)="toggle()">
+
+☰
+
+</button>
+
+
+
+@if(isOpen){
+
+<div 
+class="overlay"
+(click)="close()">
+</div>
+
+
+<aside class="side-menu">
+
+
+<h2>
+📚 BookVerse
+</h2>
+
+
+<a routerLink="/" (click)="close()">
+🏠 Home
+</a>
+
+
+<a routerLink="/search" (click)="close()">
+🔍 Search
+</a>
+
+
+<a routerLink="/categories" (click)="close()">
+📚 Categories
+</a>
+
+
+<a routerLink="/authors" (click)="close()">
+👤 Authors
+</a>
+
+
+<a routerLink="/favorites" (click)="close()">
+❤️ Favorites
+</a>
+
+
+<a routerLink="/library" (click)="close()">
+📖 My Library
+</a>
+
+
+<a routerLink="/history" (click)="close()">
+📈 Reading History
+</a>
+
+
+<a routerLink="/profile" (click)="close()">
+👤 Profile
+</a>
+
+
+<a routerLink="/settings" (click)="close()">
+⚙ Settings
+</a>
+
+
+<a routerLink="/about" (click)="close()">
+ℹ About
+</a>
+
+
+</aside>
+
+}

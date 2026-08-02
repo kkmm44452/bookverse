@@ -1,0 +1,122 @@
+<!-- <h1>
+🔍 Search Books
+</h1>
+
+
+<input
+#searchBox
+placeholder="Search books">
+
+
+<button
+(click)="search(searchBox.value)">
+Search
+</button>
+
+
+
+<div class="book-grid">
+
+
+@for(book of books; track book.key){
+
+
+<div class="book-card">
+
+
+<img
+[src]="getCover(book)">
+
+
+
+<h3>
+{{book.title}}
+</h3>
+
+
+<p>
+{{book.author_name?.[0]}}
+</p>
+
+
+</div>
+
+
+}
+
+
+</div> -->
+
+<section class="search-page">
+
+  <div class="search-header">
+
+    <h1>🔍 Search Books</h1>
+
+    <div class="search-box">
+
+      <input
+        type="text"
+        placeholder="Search books, authors..."
+        [(ngModel)]="query"
+        (keyup.enter)="searchBooks()">
+
+      <button (click)="searchBooks()">
+        Search
+      </button>
+
+    </div>
+
+  </div>
+
+  @if(loading){
+
+  <div class="loading">
+    <h2>📚 Searching books...</h2>
+  </div>
+
+  }
+
+  @if(!loading && books.length){
+
+  <div class="books-grid">
+
+    @for(book of books; track book.key){
+
+    <div class="book-card" (click)="openBook(book)">
+
+      <img
+        [src]="getCover(book)"
+        alt="Book Cover">
+
+      <h3>{{book.title}}</h3>
+
+      <p>
+        {{book.author_name?.[0] || 'Unknown Author'}}
+      </p>
+
+      <small>
+        {{book.first_publish_year}}
+      </small>
+
+    </div>
+
+    }
+
+  </div>
+
+  }
+
+  @if(!loading && books.length===0){
+
+  <div class="empty">
+
+    <h2>No books found 📚</h2>
+
+    <p>Try another keyword.</p>
+
+  </div>
+
+  }
+
+</section>

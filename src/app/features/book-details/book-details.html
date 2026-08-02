@@ -1,0 +1,224 @@
+<!-- @if(loading){
+
+<h2>
+Loading book...
+</h2>
+
+}
+
+
+@if(!loading && book){
+
+
+<section class="details">
+
+
+<div class="cover">
+
+<img
+[src]="getCover()"
+[alt]="book.title"
+>
+
+</div>
+
+
+
+<div class="info">
+
+
+<h1>
+{{book.title}}
+</h1>
+
+
+
+<p class="description">
+
+@if(book.description?.value){
+
+{{book.description.value}}
+
+}
+@else{
+
+No description available.
+
+}
+
+</p>
+
+
+
+<h3>
+Author
+</h3>
+
+
+<p>
+
+{{authorName}}
+
+</p>
+
+
+
+<h3>
+Subjects
+</h3>
+
+
+<div class="subjects">
+
+
+@for(subject of book.subjects?.slice(0,8); track subject){
+
+
+<span>
+
+{{subject}}
+
+</span>
+
+
+}
+
+
+</div>
+
+
+
+<div class="actions">
+
+
+<button>
+❤️ Add Favorite
+</button>
+
+
+<button>
+📚 Add to Library
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+} -->
+
+@if (loading) {
+
+<div class="loading-container">
+  <h2>📚 Loading book details...</h2>
+</div>
+
+} @else if (book) {
+
+<section class="book-details-container">
+
+  <div class="book-cover">
+
+    <img
+      [src]="getCover()"
+      [alt]="book.title">
+
+  </div>
+
+  <div class="book-content">
+
+    <h1>{{ book.title }}</h1>
+
+    <p class="author">
+      <strong>Author:</strong> {{ authorName }}
+    </p>
+
+    <p class="description">
+      <strong>Description:</strong><br><br>
+
+      @if (book.description) {
+
+        @if (book.description.value) {
+
+          {{ book.description.value }}
+
+        } @else {
+
+          {{ book.description }}
+
+        }
+
+      } @else {
+
+        No description available.
+
+      }
+
+    </p>
+
+    <div class="info">
+
+      @if (book.first_publish_date) {
+        <p>
+          <strong>First Published:</strong>
+          {{ book.first_publish_date }}
+        </p>
+      }
+
+      @if (book.subjects?.length) {
+
+        <h3>Subjects</h3>
+
+        <div class="subjects">
+
+          @for (subject of book.subjects.slice(0,10); track subject) {
+
+            <span class="subject-chip">
+              {{ subject }}
+            </span>
+
+          }
+
+        </div>
+
+      }
+
+    </div>
+
+   <div class="buttons">
+<button class="favorite-btn" (click)="addToFavorites()">
+  ❤️ Add to Favorites
+</button>
+
+<button class="library-btn" (click)="addToLibrary()">
+  📚 Add to Library
+</button>
+
+<button class="read-btn" (click)="readBook()">
+  📖 Read Now
+</button>
+
+<button class="purchase-btn" (click)="purchaseBook()">
+  🛒 Purchase
+</button>
+
+</div>
+
+  </div>
+
+</section>
+
+} @else {
+
+<div class="loading-container">
+
+  <h2>No book found.</h2>
+
+</div>
+
+}

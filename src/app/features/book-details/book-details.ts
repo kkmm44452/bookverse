@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OpenLibraryService } from '../../core/services/open-library';
 import { CommonModule } from '@angular/common';
@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-book-details',
   standalone: true,
-   imports: [CommonModule],
+  imports: [CommonModule],
   templateUrl: './book-details.html',
   styleUrl: './book-details.scss'
 })
@@ -16,12 +16,13 @@ export class BookDetails implements OnInit {
   book: any = null;
   loading = true;
 
-authorName = 'Unknown Author';
+  authorName = 'Unknown Author';
 
   constructor(
     private route: ActivatedRoute,
-    private api: OpenLibraryService
-  ) {}
+    private api: OpenLibraryService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
 
 
@@ -30,81 +31,83 @@ authorName = 'Unknown Author';
     const id = this.route.snapshot.paramMap.get('id');
 
 
-    console.log("Book ID:", id);
+    // console.log("Book ID:", id);
 
 
 
-    if(id){
+    if (id) {
 
       this.api.getBookDetails(id)
-      .subscribe({
+        .subscribe({
 
-        next:(response)=>{
+          next: (response) => {
 
-          console.log("Book Data:", response);
-
-
-          this.book = response;
-
-          this.loading = false;
+            // console.log("Book Data:", response);
 
 
-if(response.authors?.length){
+            this.book = response;
+
+            this.loading = false;
+
+            this.cdr.detectChanges();
 
 
-this.getAuthor(
-response.authors[0].author.key
-);
+            if (response.authors?.length) {
 
 
-}
+              this.getAuthor(
+                response.authors[0].author.key
+              );
+
+
+            }
 
 
 
-        },
+          },
 
 
-        error:(error)=>{
+          error: (error) => {
 
-          console.error(
-            "Book API Error:",
-            error
-          );
-
-
-          this.loading = false;
-
-        }
+            console.error(
+              "Book API Error:",
+              error
+            );
 
 
-      });
+            this.loading = false;
+
+          }
+
+
+        });
 
     }
 
   }
 
-getAuthor(key:string){
+  getAuthor(key: string) {
 
 
-const id = key.replace('/authors/','');
+    const id = key.replace('/authors/', '');
 
 
-this.api
-.getAuthor(id)
-.subscribe(author=>{
+    this.api
+      .getAuthor(id)
+      .subscribe(author => {
 
 
-this.authorName = author.name;
+        this.authorName = author.name;
 
 
-});
+      });
 
 
-}
+  }
 
-  getCover(){
+  getCover() {
 
-    if(this.book?.covers){
+    if (this.book?.covers) {
 
       return `https://covers.openlibrary.org/b/id/${this.book.covers[0]}-L.jpg`;
 
@@ -115,102 +118,102 @@ this.authorName = author.name;
 
   }
 
-getDescription(): string {
-  if (!this.book?.description) {
-    return 'No description available.';
+  getDescription(): string {
+    if (!this.book?.description) {
+      return 'No description available.';
+    }
+
+    if (typeof this.book.description === 'string') {
+      return this.book.description;
+    }
+
+    return this.book.description.value ?? 'No description available.';
   }
 
-  if (typeof this.book.description === 'string') {
-    return this.book.description;
-  }
 
-  return this.book.description.value ?? 'No description available.';
-}
+  addToFavorites() {
 
-
-addToFavorites() {
-
-  let favorites = JSON.parse(
-    localStorage.getItem('favorites') || '[]'
-  );
-
-  const exists = favorites.some(
-    (b: any) => b.key === this.book.key
-  );
-
-  if (!exists) {
-
-    favorites.push(this.book);
-
-    localStorage.setItem(
-      'favorites',
-      JSON.stringify(favorites)
+    let favorites = JSON.parse(
+      localStorage.getItem('favorites') || '[]'
     );
 
-    alert('❤️ Book added to Favorites');
-
-  } else {
-
-    alert('This book is already in Favorites.');
-
-  }
-
-}
-
-addToLibrary() {
-
-  let library = JSON.parse(
-    localStorage.getItem('library') || '[]'
-  );
-
-  const exists = library.some(
-    (b: any) => b.key === this.book.key
-  );
-
-  if (!exists) {
-
-    library.push(this.book);
-
-    localStorage.setItem(
-      'library',
-      JSON.stringify(library)
+    const exists = favorites.some(
+      (b: any) => b.key === this.book.key
     );
 
-    alert('📚 Book added to My Library');
+    if (!exists) {
 
-  } else {
+      favorites.push(this.book);
 
-    alert('This book is already in your Library.');
+      localStorage.setItem(
+        'favorites',
+        JSON.stringify(favorites)
+      );
+
+      alert('❤️ Book added to Favorites');
+
+    } else {
+
+      alert('This book is already in Favorites.');
+
+    }
 
   }
 
-}
+  addToLibrary() {
 
-readBook() {
+    let library = JSON.parse(
+      localStorage.getItem('library') || '[]'
+    );
 
-  if (this.book?.key) {
+    const exists = library.some(
+      (b: any) => b.key === this.book.key
+    );
 
-    const workId = this.book.key.replace('/works/', '');
+    if (!exists) {
+
+      library.push(this.book);
+
+      localStorage.setItem(
+        'library',
+        JSON.stringify(library)
+      );
+
+      alert('📚 Book added to My Library');
+
+    } else {
+
+      alert('This book is already in your Library.');
+
+    }
+
+  }
+
+  readBook() {
+
+    if (this.book?.key) {
+
+      const workId = this.book.key.replace('/works/', '');
+
+      window.open(
+        `https://openlibrary.org${this.book.key}`,
+        '_blank'
+      );
+
+    }
+
+  }
+
+  purchaseBook() {
+
+    const title = encodeURIComponent(this.book.title);
 
     window.open(
-      `https://openlibrary.org${this.book.key}`,
+      `https://www.google.com/search?tbm=shop&q=${title}+book`,
       '_blank'
     );
 
   }
-
-}
-
-purchaseBook() {
-
-  const title = encodeURIComponent(this.book.title);
-
-  window.open(
-    `https://www.google.com/search?tbm=shop&q=${title}+book`,
-    '_blank'
-  );
-
-}
 
 
 

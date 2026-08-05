@@ -4,14 +4,31 @@
 <div class="top-bar">
 
 
+<!-- hamburger -->
+@if (!menu.isOpen) {
+  <button
+    class="hamburger"
+    (click)="openMenu()">
+    ☰
+  </button>
+}
+
+
+
+<!-- logo -->
 
 <h1>
+
 📚 BookVerse
+
 </h1>
 
 
 
+<!-- search -->
+
 <div class="search">
+
 
 <input
 
@@ -31,11 +48,14 @@ placeholder="Search books..."
 
 </button>
 
+
 </div>
 
 
 
-<button 
+<!-- profile/login -->
+
+<button
 class="profile"
 (click)="openProfile()">
 
@@ -45,26 +65,6 @@ class="profile"
 
 
 </div>
-
-
-
-<nav class="genres">
-
-
-@for(genre of genres; track genre){
-
-<a
-(click)="openGenre(genre)">
-
-{{genre}}
-
-</a>
-
-
-}
-
-
-</nav>
 
 
 </header>

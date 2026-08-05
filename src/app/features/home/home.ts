@@ -1,67 +1,7 @@
-// import { Component, OnInit } from '@angular/core';
-// import { OpenLibraryService } from '../../core/services/open-library';
-
-
-// @Component({
-//   selector: 'app-home',
-//   standalone: true,
-//   templateUrl: './home.html',
-//   styleUrl: './home.scss'
-// })
-// export class Home implements OnInit {
-
-//   books: any[] = [];
-//   loading = true;
-
-
-//   constructor(
-//     private openLibrary: OpenLibraryService
-//   ) {}
-
-
-//   ngOnInit(): void {
-
-//     this.openLibrary
-//       .searchBooks('fiction')
-//       .subscribe({
-
-//         next: (response) => {
-
-//           this.books = response.docs.slice(0, 12);
-
-//           this.loading = false;
-
-//         },
-
-//         error: () => {
-
-//           this.loading = false;
-
-//         }
-
-//       });
-
-//   }
-
-
-//   getCover(book:any): string {
-
-//     if(book.cover_i){
-
-//       return `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
-
-//     }
-
-//     return 'assets/no-book-cover.png';
-
-//   }
-
-// }
-
-import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { OpenLibraryService } from '../../core/services/open-library';
 import { Router } from '@angular/router';
-
+import { SearchService } from '../../core/services/search';
 
 @Component({
   selector: 'app-home',
@@ -80,9 +20,11 @@ export class Home implements OnInit {
   constructor(
     private openLibrary: OpenLibraryService,
     private cdr: ChangeDetectorRef,
-     private router: Router
+    private router: Router,
+    private searchService: SearchService,
 
-  ){}
+
+  ) { }
 
 
 
@@ -90,11 +32,53 @@ export class Home implements OnInit {
 
     this.loadBooks();
 
+    this.searchService.search$
+      .subscribe(
+        (value) => {
+
+          this.searchBooks(value);
+
+        });
+
+
+  }
+
+  searchBooks(query: string) {
+
+
+    this.loading = true;
+
+
+    this.openLibrary
+      .searchBooks(query)
+      .subscribe({
+
+        next: (response) => {
+
+
+          this.books = response.docs.slice(0, 12);
+
+          this.loading = false;
+
+          this.cdr.detectChanges();
+
+
+        },
+
+
+        error: () => {
+
+          this.loading = false;
+
+        }
+
+      });
+
+
   }
 
 
-
-  loadBooks(){
+  loadBooks() {
 
     this.loading = true;
 
@@ -103,19 +87,19 @@ export class Home implements OnInit {
       .searchBooks('fiction')
       .subscribe({
 
-        next:(response)=>{
+        next: (response) => {
 
 
-          this.books = response.docs.slice(0,12);
+          this.books = response.docs.slice(0, 12);
 
 
           this.loading = false;
-  this.cdr.detectChanges();
+          this.cdr.detectChanges();
 
         },
 
 
-        error:(error)=>{
+        error: (error) => {
 
 
           console.error(
@@ -125,7 +109,7 @@ export class Home implements OnInit {
 
 
           this.loading = false;
- this.cdr.detectChanges();
+          this.cdr.detectChanges();
 
 
         }
@@ -138,15 +122,15 @@ export class Home implements OnInit {
 
 
 
-  getCover(book:any){
+  getCover(book: any) {
 
 
-    if(book.cover_i){
+    if (book.cover_i) {
 
       return `
       https://covers.openlibrary.org/b/id/
       ${book.cover_i}-M.jpg
-      `.replace(/\s/g,'');
+      `.replace(/\s/g, '');
 
     }
 
@@ -155,15 +139,15 @@ export class Home implements OnInit {
 
   }
 
-openBook(book:any){
+  openBook(book: any) {
 
-const id = book.key.replace('/works/','');
+    const id = book.key.replace('/works/', '');
 
-this.router.navigate([
-'/book',
-id
-]);
+    this.router.navigate([
+      '/book',
+      id
+    ]);
 
-}
+  }
 
 }

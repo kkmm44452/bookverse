@@ -1,14 +1,5 @@
-<button 
-class="hamburger"
-(click)="toggle()">
+@if(menu.isOpen){
 
-☰
-
-</button>
-
-
-
-@if(isOpen){
 
 <div 
 class="overlay"
@@ -16,12 +7,24 @@ class="overlay"
 </div>
 
 
+
 <aside class="side-menu">
+
+
+<button
+class="close"
+(click)="close()">
+
+✕
+
+
+</button>
 
 
 <h2>
 📚 BookVerse
 </h2>
+
 
 
 <a routerLink="/" (click)="close()">
@@ -49,31 +52,8 @@ class="overlay"
 </a>
 
 
-<a routerLink="/library" (click)="close()">
-📖 My Library
-</a>
-
-
-<a routerLink="/history" (click)="close()">
-📈 Reading History
-</a>
-
-
-<a routerLink="/profile" (click)="close()">
-👤 Profile
-</a>
-
-
-<a routerLink="/settings" (click)="close()">
-⚙ Settings
-</a>
-
-
-<a routerLink="/about" (click)="close()">
-ℹ About
-</a>
-
 
 </aside>
+
 
 }

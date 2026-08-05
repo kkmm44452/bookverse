@@ -1,71 +1,77 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Menu } from '../../core/services/menu';
+import { SearchService } from '../../core/services/search';
 
 @Component({
-  selector:'app-navbar',
-  standalone:true,
-    imports:[
+
+  selector: 'app-navbar',
+
+  standalone: true,
+
+  imports: [
     FormsModule
   ],
-  templateUrl:'./navbar.html',
-  styleUrl:'./navbar.scss'
+
+  templateUrl: './navbar.html',
+
+  styleUrl: './navbar.scss'
+
 })
+
+
 export class Navbar {
 
+
   searchText = '';
-genres = [
 
-'Fiction',
-'Fantasy',
-'Romance',
-'Mystery',
-'Sci-Fi',
-'History',
-'Biography',
-'Horror'
 
-];
+  constructor(
 
-constructor(
-private router:Router
-){}
+    public menu: Menu,
+    private router: Router,
+    private searchService: SearchService
 
-openGenre(genre:string){
+  ) { }
 
-this.router.navigate(
-['/search'],
-{
-queryParams:{
-genre:genre
-}
-}
-);
 
-}
 
-  openProfile(){
+  openMenu() {
 
-    this.router.navigate(['/profile']);
+    this.menu.open();
 
   }
 
 
- searchBooks(){
 
-    if(this.searchText.trim()){
+  searchBooks() {
 
-      this.router.navigate(
-        ['/search'],
-        {
-          queryParams:{
-            q:this.searchText
-          }
-        }
+    if (this.searchText.trim()) {
+
+      this.searchService.search(
+        this.searchText
       );
 
     }
 
   }
+
+
+  openProfile() {
+
+    if (this.router.url === '/profile') {
+
+      this.router.navigate(['/']);
+
+    }
+    else {
+
+      this.router.navigate(['/profile']);
+
+    }
+
+  }
+
 
 }

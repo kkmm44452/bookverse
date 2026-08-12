@@ -1,0 +1,738 @@
+// import { Component, OnInit } from '@angular/core';
+// import { HttpClient } from '@angular/common/http';
+// import { Router } from '@angular/router';
+// import { AuthService } from '../../services/auth.service';
+// import { DecimalPipe } from '@angular/common';
+
+// declare var Razorpay: any;
+
+// interface CreatePaymentResponse {
+//   success: boolean;
+//   keyId: string;
+
+//   order: {
+//     id: string;
+//     amount: number;
+//     currency: string;
+//   };
+// }
+
+// interface VerifyPaymentResponse {
+//   success: boolean;
+//   message: string;
+
+//   order?: {
+//     id: string;
+//     razorpay_order_id: string;
+//     razorpay_payment_id: string;
+//     payment_status: string;
+//     order_status: string;
+//   };
+// }
+
+// @Component({
+//   selector: 'app-payment',
+//   standalone: true,
+//    imports: [
+//     DecimalPipe
+//   ],
+//   templateUrl: './payment.html',
+//   styleUrl: './payment.scss'
+// })
+// export class Payment implements OnInit {
+
+//   loading = false;
+
+//   errorMessage = '';
+
+//   total = 0;
+
+//   constructor(
+//     private http: HttpClient,
+//     private router: Router,
+//     public authService: AuthService
+//   ) {}
+
+//   ngOnInit(): void {
+
+//     if (!this.authService.getToken()) {
+//       this.router.navigate(['/signin']);
+//       return;
+//     }
+
+//     this.loadCartTotal();
+//   }
+
+//   private loadCartTotal(): void {
+
+//     /*
+//      * Replace this with your actual CartService.
+//      *
+//      * For now we read the existing cart.
+//      */
+
+//     const cart =
+//       localStorage.getItem('cart');
+
+//     if (!cart) {
+//       this.total = 0;
+//       return;
+//     }
+
+//     try {
+
+//       const items =
+//         JSON.parse(cart);
+
+//       this.total =
+//         items.reduce(
+//           (sum: number, item: any) =>
+//             sum +
+//             Number(item.price || 0) *
+//             Number(item.quantity || 1),
+//           0
+//         );
+
+//     } catch {
+
+//       this.total = 0;
+
+//     }
+//   }
+
+//   payNow(): void {
+
+//     if (this.total <= 0) {
+//       this.errorMessage =
+//         'Your cart is empty.';
+
+//       return;
+//     }
+
+//     this.loading = true;
+//     this.errorMessage = '';
+
+//     const token =
+//       this.authService.getToken();
+
+//     this.http.post<CreatePaymentResponse>(
+//       '/api/create-payment-order',
+//       {
+//         amount: this.total
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       }
+//     ).subscribe({
+
+//       next: response => {
+
+//         if (!response.success) {
+
+//           this.loading = false;
+
+//           this.errorMessage =
+//             'Unable to start payment.';
+
+//           return;
+//         }
+
+//         this.openRazorpay(response);
+
+//       },
+
+//       error: error => {
+
+//         this.loading = false;
+
+//         console.error(
+//           'Create payment error:',
+//           error
+//         );
+
+//         this.errorMessage =
+//           error?.error?.message ||
+//           'Unable to start payment.';
+//       }
+
+//     });
+//   }
+
+//   private openRazorpay(
+//     response: CreatePaymentResponse
+//   ): void {
+
+//     const options = {
+
+//       key: response.keyId,
+
+//       amount: response.order.amount,
+
+//       currency: response.order.currency,
+
+//       name: 'BookVerse',
+
+//       description: 'Book purchase',
+
+//       order_id: response.order.id,
+
+//       prefill: {
+//         name:
+//           this.authService.getUser()?.name || '',
+
+//         email:
+//           this.authService.getUser()?.email || '',
+
+//         contact:
+//           this.authService.getUser()?.mobileNumber || ''
+//       },
+
+//       theme: {
+//         color: '#6c4cff'
+//       },
+
+//       handler: (paymentResponse: any) => {
+
+//         this.verifyPayment(
+//           paymentResponse
+//         );
+
+//       },
+
+//       modal: {
+//         ondismiss: () => {
+
+//           this.loading = false;
+
+//         }
+//       }
+
+//     };
+
+//     const razorpay =
+//       new Razorpay(options);
+
+//     razorpay.open();
+//   }
+
+//   private verifyPayment(
+//     paymentResponse: any
+//   ): void {
+
+//     const token =
+//       this.authService.getToken();
+
+//     this.http.post<VerifyPaymentResponse>(
+//       '/api/verify-payment',
+//       {
+//         razorpayOrderId:
+//           paymentResponse.razorpay_order_id,
+
+//         razorpayPaymentId:
+//           paymentResponse.razorpay_payment_id,
+
+//         razorpaySignature:
+//           paymentResponse.razorpay_signature
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       }
+//     ).subscribe({
+
+//       next: response => {
+
+//         this.loading = false;
+
+//         if (!response.success) {
+
+//           this.errorMessage =
+//             'Payment verification failed.';
+
+//           return;
+//         }
+
+//         /*
+//          * Payment is verified.
+//          */
+
+//         localStorage.removeItem('cart');
+
+//         this.router.navigate(
+//           ['/order-success'],
+//           {
+//             state: {
+//               order: response.order
+//             }
+//           }
+//         );
+
+//       },
+
+//       error: error => {
+
+//         this.loading = false;
+
+//         console.error(
+//           'Payment verification error:',
+//           error
+//         );
+
+//         this.errorMessage =
+//           error?.error?.message ||
+//           'Payment verification failed.';
+//       }
+
+//     });
+//   }
+// }
+
+// import { Component } from '@angular/core';
+// import { Router } from '@angular/router';
+// import { PaymentService } from '../../services/payment';
+// import { DecimalPipe } from '@angular/common';
+
+// declare const Razorpay: any;
+
+// @Component({
+//   selector: 'app-payment',
+//   standalone: true,
+//    imports: [
+//   DecimalPipe
+//  ],
+//   templateUrl: './payment.html',
+//   styleUrl: './payment.scss'
+// })
+// export class Payment {
+
+//   loading = false;
+
+//   errorMessage = '';
+
+//   totalAmount = 0;
+
+//   constructor(
+//     private paymentService: PaymentService,
+//     private router: Router
+//   ) {
+
+//     const cart =
+//       JSON.parse(
+//         localStorage.getItem('cart') || '[]'
+//       );
+
+//     this.totalAmount = cart.reduce(
+//       (total: number, item: any) =>
+//         total + Number(item.price || 0) *
+//         Number(item.quantity || 1),
+//       0
+//     );
+//   }
+
+//   payNow(): void {
+
+//     this.errorMessage = '';
+
+//     if (this.totalAmount <= 0) {
+//       this.errorMessage =
+//         'Your cart is empty.';
+
+//       return;
+//     }
+
+//     this.loading = true;
+
+//     this.paymentService
+//       .createOrder(this.totalAmount)
+//       .subscribe({
+
+//         next: response => {
+
+//           if (!response.success) {
+//             this.loading = false;
+
+//             this.errorMessage =
+//               response.message ||
+//               'Unable to create payment order.';
+
+//             return;
+//           }
+
+//           this.openRazorpay(response);
+//         },
+
+//         error: error => {
+
+//           console.error(
+//             'Create payment order error:',
+//             error
+//           );
+
+//           this.loading = false;
+
+//           this.errorMessage =
+//             error?.error?.message ||
+//             'Unable to start payment.';
+//         }
+
+//       });
+//   }
+
+//   private openRazorpay(
+//     response: any
+//   ): void {
+
+//     const options = {
+
+//       key: response.keyId,
+
+//       amount: response.amount,
+
+//       currency: response.currency,
+
+//       name: 'BookVerse',
+
+//       description:
+//         'BookVerse Book Purchase',
+
+//       order_id:
+//         response.orderId,
+
+//       theme: {
+//         color: '#6c4ab6'
+//       },
+
+//       handler: (paymentResponse: any) => {
+
+//         this.verifyPayment(
+//           paymentResponse
+//         );
+//       },
+
+//       modal: {
+//         ondismiss: () => {
+//           this.loading = false;
+//         }
+//       }
+//     };
+
+//     const razorpay =
+//       new Razorpay(options);
+
+//     razorpay.on(
+//       'payment.failed',
+//       (error: any) => {
+
+//         console.error(
+//           'Razorpay payment failed:',
+//           error
+//         );
+
+//         this.loading = false;
+
+//         this.errorMessage =
+//           'Payment failed. Please try again.';
+//       }
+//     );
+
+//     razorpay.open();
+//   }
+
+//   private verifyPayment(
+//     paymentResponse: any
+//   ): void {
+
+//     this.paymentService
+//       .verifyPayment({
+//         razorpay_payment_id:
+//           paymentResponse.razorpay_payment_id,
+
+//         razorpay_order_id:
+//           paymentResponse.razorpay_order_id,
+
+//         razorpay_signature:
+//           paymentResponse.razorpay_signature
+//       })
+//       .subscribe({
+
+//         next: response => {
+
+//           this.loading = false;
+
+//           if (!response.success) {
+
+//             this.errorMessage =
+//               response.message ||
+//               'Payment verification failed.';
+
+//             return;
+//           }
+
+//           // Payment is verified by server.
+//           this.router.navigate(
+//             ['/order-success'],
+//             {
+//               queryParams: {
+//                 orderId:
+//                   response.orderId
+//               }
+//             }
+//           );
+//         },
+
+//         error: error => {
+
+//           console.error(
+//             'Payment verification error:',
+//             error
+//           );
+
+//           this.loading = false;
+
+//           this.errorMessage =
+//             'Unable to verify payment.';
+//         }
+//       });
+//   }
+// }
+
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { DecimalPipe } from '@angular/common';
+
+import { PaymentService } from '../../services/payment';
+import { CartService } from '../../services/cart';
+
+declare const Razorpay: any;
+
+@Component({
+  selector: 'app-payment',
+  standalone: true,
+
+  imports: [
+    DecimalPipe
+  ],
+
+  templateUrl: './payment.html',
+  styleUrl: './payment.scss'
+})
+export class Payment {
+
+  loading = false;
+
+  errorMessage = '';
+
+  totalAmount = 0;
+
+  constructor(
+    private paymentService: PaymentService,
+    private cartService: CartService,
+    private router: Router
+  ) {
+
+    this.totalAmount =
+      this.cartService.getTotal();
+
+  }
+
+  payNow(): void {
+
+  this.errorMessage = '';
+
+  if (this.totalAmount <= 0) {
+    this.errorMessage = 'Your cart is empty.';
+    return;
+  }
+
+  const addressId =
+    localStorage.getItem('bookverse_address_id');
+
+  if (!addressId) {
+
+    this.errorMessage =
+      'Please add your delivery address before payment.';
+
+    this.router.navigate(['/checkout']);
+
+    return;
+  }
+
+  this.loading = true;
+
+  console.log('Payment amount:', this.totalAmount);
+  console.log('Address ID:', addressId);
+
+  this.paymentService
+    .createOrder(
+      this.totalAmount,
+      addressId
+    )
+    .subscribe({
+
+      next: response => {
+
+        console.log(
+          'Create payment order response:',
+          response
+        );
+
+        if (!response.success) {
+
+          this.loading = false;
+
+          this.errorMessage =
+            response.message ||
+            'Unable to create payment order.';
+
+          return;
+        }
+
+        this.openRazorpay(response);
+      },
+
+      error: error => {
+
+        console.error(
+          'Create payment order error:',
+          error
+        );
+
+        this.loading = false;
+
+        this.errorMessage =
+          error?.error?.message ||
+          'Unable to start payment.';
+      }
+
+    });
+}
+
+  private openRazorpay(
+    response: any
+  ): void {
+
+    const options = {
+
+      key: response.keyId,
+
+      amount: response.amount,
+
+      currency: response.currency,
+
+      name: 'BookVerse',
+
+      description:
+        'BookVerse Book Purchase',
+
+      order_id:
+        response.orderId,
+
+      theme: {
+        color: '#6c4ab6'
+      },
+
+      handler: (paymentResponse: any) => {
+
+        this.verifyPayment(
+          paymentResponse
+        );
+      },
+
+      modal: {
+        ondismiss: () => {
+
+          this.loading = false;
+
+        }
+      }
+    };
+
+    const razorpay =
+      new Razorpay(options);
+
+    razorpay.open();
+  }
+
+  private verifyPayment(
+    paymentResponse: any
+  ): void {
+
+    this.paymentService
+      .verifyPayment({
+
+        razorpay_payment_id:
+          paymentResponse.razorpay_payment_id,
+
+        razorpay_order_id:
+          paymentResponse.razorpay_order_id,
+
+        razorpay_signature:
+          paymentResponse.razorpay_signature
+
+      })
+      .subscribe({
+
+        next: response => {
+
+          this.loading = false;
+
+          if (!response.success) {
+
+            this.errorMessage =
+              response.message ||
+              'Payment verification failed.';
+
+            return;
+          }
+ // --------------------------------
+        // PAYMENT SUCCESSFULLY VERIFIED
+        // --------------------------------
+
+        console.log(
+          'Payment verified successfully:',
+          response
+        );
+
+        // Clear cart after successful payment
+        localStorage.removeItem(
+          'bookverse_cart'
+        );
+
+        // Show success alert
+        alert(
+          '🎉 Payment Successful!\n\n' +
+          'Your order has been placed successfully.'
+        );
+
+        // Redirect after alert is closed
+        this.router.navigate(
+          ['/order-success'],
+          {
+            queryParams: {
+              orderId: response.orderId
+            }
+          }
+        );
+
+      },
+
+
+        error: error => {
+
+          console.error(
+            'Payment verification error:',
+            error
+          );
+
+          this.loading = false;
+
+          this.errorMessage =
+            'Unable to verify payment.';
+        }
+
+      });
+  }
+}

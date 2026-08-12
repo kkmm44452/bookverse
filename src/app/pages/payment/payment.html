@@ -1,0 +1,126 @@
+<!-- <section class="payment-page">
+
+  <div class="payment-card">
+
+    <div class="payment-icon">
+      💳
+    </div>
+
+    <h1>
+      Complete Your Payment
+    </h1>
+
+    <p class="subtitle">
+      Your order is almost ready.
+    </p>
+
+    <div class="payment-summary">
+
+      <div class="summary-row">
+
+        <span>
+          Order Total
+        </span>
+
+        <strong>
+          ₹{{ total | number:'1.2-2' }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    @if (errorMessage) {
+
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+
+    }
+
+    <button
+      class="pay-button"
+      [disabled]="loading || total <= 0"
+      (click)="payNow()"
+    >
+
+      @if (loading) {
+
+        <span>
+          Processing...
+        </span>
+
+      } @else {
+
+        <span>
+          Pay ₹{{ total | number:'1.2-2' }}
+        </span>
+
+      }
+
+    </button>
+
+    <div class="secure-payment">
+
+      🔒 Secure payment powered by Razorpay
+
+    </div>
+
+  </div>
+
+</section> -->
+
+
+<section class="payment-page">
+
+  <div class="payment-card">
+
+    <div class="payment-icon">
+      💳
+    </div>
+
+    <h1>Complete Your Payment</h1>
+
+    <p class="subtitle">
+      Your order is ready. Complete the payment
+      securely using Razorpay.
+    </p>
+
+    <div class="amount-box">
+
+      <span>Total Amount</span>
+
+      <strong>
+        ₹{{ totalAmount | number:'1.2-2' }}
+      </strong>
+
+    </div>
+
+    @if (errorMessage) {
+
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+
+    }
+
+    <button
+      class="pay-button"
+      [disabled]="loading"
+      (click)="payNow()">
+
+      @if (loading) {
+        Processing...
+      } @else {
+        Pay ₹{{ totalAmount | number:'1.2-2' }}
+      }
+
+    </button>
+
+    <div class="secure-payment">
+      🔒 Secure payment powered by Razorpay
+    </div>
+
+  </div>
+
+</section>

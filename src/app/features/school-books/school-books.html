@@ -1,0 +1,93 @@
+<section class="school-books-page">
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        EDUCATION
+      </span>
+
+      <h1>
+        School Books
+      </h1>
+
+      <p>
+        Find books for school learning and preparation.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="books-grid">
+
+    @for (book of books; track book.id) {
+
+      <article class="book-card">
+
+        <div class="book-image">
+
+          <img
+            [src]="book.image"
+            [alt]="book.title"
+          />
+
+        </div>
+
+
+        <div class="book-content">
+
+          <span class="class-badge">
+            {{ book.className }}
+          </span>
+
+          <h2>
+            {{ book.title }}
+          </h2>
+
+          <p class="author">
+            {{ book.author }}
+          </p>
+
+          <strong class="price">
+            ₹{{ book.price }}
+          </strong>
+
+
+          <div class="book-actions">
+
+            <button
+              type="button"
+              class="details-button"
+              (click)="viewDetails(book)"
+            >
+              View Details
+            </button>
+
+
+            <button
+              type="button"
+              class="cart-button"
+              [disabled]="cart.isInCart(book.id)"
+              (click)="addToCart(book)"
+            >
+
+              @if (cart.isInCart(book.id)) {
+                ✓ Added
+              } @else {
+                🛒 Add to Cart
+              }
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    }
+
+  </div>
+
+</section>

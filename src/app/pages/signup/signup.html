@@ -1,0 +1,252 @@
+<div class="signup-page"> <div class="signup-card">
+<!-- Header -->
+<div class="signup-header">
+
+  <div class="logo">
+    📚
+  </div>
+
+  <h1>Create Account</h1>
+
+  <p>
+    Join BookVerse and start your reading journey.
+  </p>
+
+</div>
+
+
+<!-- Error Message -->
+@if (errorMessage) {
+  <div class="alert error">
+    {{ errorMessage }}
+  </div>
+}
+
+
+<!-- Success Message -->
+@if (successMessage) {
+  <div class="alert success">
+    {{ successMessage }}
+  </div>
+}
+
+
+<!-- Signup Form -->
+<form
+  [formGroup]="signupForm"
+  (ngSubmit)="signup()"
+  novalidate
+>
+
+  <!-- Full Name -->
+  <div class="form-group">
+
+    <label for="name">
+      Full Name
+    </label>
+
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      placeholder="Enter your full name"
+      autocomplete="name"
+      [class.invalid]="name.touched && name.invalid"
+    />
+
+    @if (name.touched && name.invalid) {
+
+      <small class="field-error">
+
+        @if (name.errors?.['required']) {
+          Name is required.
+        }
+
+        @if (name.errors?.['minlength']) {
+          Name must contain at least 2 characters.
+        }
+
+      </small>
+
+    }
+
+  </div>
+
+
+  <!-- Email -->
+  <div class="form-group">
+
+    <label for="email">
+      Email Address
+    </label>
+
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="you@example.com"
+      autocomplete="email"
+      [class.invalid]="email.touched && email.invalid"
+    />
+
+    @if (email.touched && email.invalid) {
+
+      <small class="field-error">
+
+        @if (email.errors?.['required']) {
+          Email is required.
+        }
+
+        @if (email.errors?.['email']) {
+          Please enter a valid email address.
+        }
+
+      </small>
+
+    }
+
+  </div>
+
+
+  <!-- Mobile Number -->
+  <div class="form-group">
+
+    <label for="mobileNumber">
+      Mobile Number
+    </label>
+
+    <input
+      id="mobileNumber"
+      type="tel"
+      formControlName="mobileNumber"
+      placeholder="9876543210"
+      maxlength="10"
+      autocomplete="tel"
+      [class.invalid]="mobileNumber.touched && mobileNumber.invalid"
+    />
+
+    @if (mobileNumber.touched && mobileNumber.invalid) {
+
+      <small class="field-error">
+
+        @if (mobileNumber.errors?.['required']) {
+          Mobile number is required.
+        }
+
+        @if (mobileNumber.errors?.['pattern']) {
+          Please enter a valid 10-digit Indian mobile number.
+        }
+
+      </small>
+
+    }
+
+  </div>
+
+
+  <!-- Password -->
+  <div class="form-group">
+
+    <label for="password">
+      Password
+    </label>
+
+    <input
+      id="password"
+      type="password"
+      formControlName="password"
+      placeholder="Minimum 8 characters"
+      autocomplete="new-password"
+      [class.invalid]="password.touched && password.invalid"
+    />
+
+    @if (password.touched && password.invalid) {
+
+      <small class="field-error">
+
+        @if (password.errors?.['required']) {
+          Password is required.
+        }
+
+        @if (password.errors?.['minlength']) {
+          Password must contain at least 8 characters.
+        }
+
+      </small>
+
+    }
+
+  </div>
+
+
+  <!-- Confirm Password -->
+  <div class="form-group">
+
+    <label for="confirmPassword">
+      Confirm Password
+    </label>
+
+    <input
+      id="confirmPassword"
+      type="password"
+      formControlName="confirmPassword"
+      placeholder="Re-enter your password"
+      autocomplete="new-password"
+      [class.invalid]="confirmPassword.touched && confirmPassword.invalid"
+    />
+
+    @if (confirmPassword.touched && confirmPassword.invalid) {
+
+      <small class="field-error">
+
+        @if (confirmPassword.errors?.['required']) {
+          Please confirm your password.
+        }
+
+        @if (confirmPassword.errors?.['passwordMismatch']) {
+          Passwords do not match.
+        }
+
+      </small>
+
+    }
+
+  </div>
+
+
+  <!-- Submit Button -->
+  <button
+    type="submit"
+    class="signup-button"
+    [disabled]="loading"
+  >
+
+    @if (loading) {
+      <span>
+        Creating Account...
+      </span>
+    } @else {
+      <span>
+        Create Account
+      </span>
+    }
+
+  </button>
+
+</form>
+
+
+<!-- Sign In -->
+<div class="signin-link">
+
+  <span>
+    Already have an account?
+  </span>
+
+  <a routerLink="/signin">
+    Sign in
+  </a>
+
+</div>
+
+</div> </div>

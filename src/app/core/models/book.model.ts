@@ -9,7 +9,7 @@ export interface Book {
   first_publish_year?: number;
 
   cover_i?: number;
-
+  covers?: number[];
   coverUrl?: string;
 
 }

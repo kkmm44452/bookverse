@@ -1,0 +1,336 @@
+.payment-page {
+  min-height: calc(100vh - 80px);
+  padding: 50px 20px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(108, 74, 182, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f8f7fc 0%,
+      #ffffff 50%,
+      #f4f1fa 100%
+    );
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Main card */
+
+.payment-card {
+  width: 100%;
+  max-width: 520px;
+
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(108, 74, 182, 0.12);
+
+  border-radius: 24px;
+
+  padding: 42px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 60px rgba(38, 24, 72, 0.12),
+    0 4px 15px rgba(38, 24, 72, 0.05);
+
+  backdrop-filter: blur(12px);
+
+  animation: paymentCardIn 0.45s ease;
+}
+
+/* Payment icon */
+
+.payment-icon {
+  width: 76px;
+  height: 76px;
+
+  margin: 0 auto 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #eee7ff,
+    #f7f3ff
+  );
+
+  font-size: 34px;
+
+  box-shadow:
+    0 8px 25px rgba(108, 74, 182, 0.15);
+}
+
+/* Heading */
+
+.payment-card h1 {
+  margin: 0;
+
+  color: #211936;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  letter-spacing: -0.5px;
+}
+
+/* Subtitle */
+
+.subtitle {
+  margin: 12px auto 30px;
+
+  max-width: 390px;
+
+  color: #777080;
+
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Amount */
+
+.amount-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 22px;
+
+  margin: 25px 0;
+
+  background: #faf8ff;
+
+  border: 1px solid #e9e2f8;
+
+  border-radius: 16px;
+
+  text-align: left;
+}
+
+.amount-box span {
+  color: #777080;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.amount-box strong {
+  color: #5d3fa3;
+
+  font-size: 25px;
+  font-weight: 750;
+}
+
+/* Error */
+
+.error-message {
+  padding: 13px 16px;
+
+  margin-bottom: 20px;
+
+  border-radius: 10px;
+
+  background: #fff1f1;
+
+  border: 1px solid #ffd2d2;
+
+  color: #c62828;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+/* Pay button */
+
+.pay-button {
+  width: 100%;
+
+  min-height: 56px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #7651c8,
+    #5d3ca4
+  );
+
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 25px rgba(93, 60, 164, 0.25);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.pay-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 30px rgba(93, 60, 164, 0.32);
+}
+
+.pay-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.pay-button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+}
+
+/* Secure payment */
+
+.secure-payment {
+  margin-top: 22px;
+
+  color: #88818f;
+
+  font-size: 13px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Small payment information */
+
+.payment-card::after {
+  content: 'Your payment is securely processed by Razorpay';
+
+  display: block;
+
+  margin-top: 10px;
+
+  color: #aaa4b0;
+
+  font-size: 11px;
+}
+
+/* Animation */
+
+@keyframes paymentCardIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+/* ---------------------------------
+   Tablet
+--------------------------------- */
+
+@media (max-width: 768px) {
+
+  .payment-page {
+    min-height: calc(100vh - 65px);
+
+    padding: 35px 16px;
+  }
+
+  .payment-card {
+    max-width: 480px;
+
+    padding: 35px 28px;
+
+    border-radius: 20px;
+  }
+
+  .payment-card h1 {
+    font-size: 27px;
+  }
+
+}
+
+/* ---------------------------------
+   Mobile
+--------------------------------- */
+
+@media (max-width: 480px) {
+
+  .payment-page {
+    padding: 20px 12px;
+
+    align-items: flex-start;
+  }
+
+  .payment-card {
+    margin-top: 15px;
+
+    padding: 30px 20px;
+
+    border-radius: 18px;
+  }
+
+  .payment-icon {
+    width: 64px;
+    height: 64px;
+
+    font-size: 28px;
+
+    margin-bottom: 18px;
+  }
+
+  .payment-card h1 {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+
+    margin-bottom: 24px;
+  }
+
+  .amount-box {
+    padding: 17px 16px;
+
+    margin: 20px 0;
+  }
+
+  .amount-box strong {
+    font-size: 21px;
+  }
+
+  .pay-button {
+    min-height: 54px;
+
+    font-size: 15px;
+
+    border-radius: 12px;
+  }
+
+  .secure-payment {
+    font-size: 12px;
+  }
+
+}

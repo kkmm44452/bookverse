@@ -101,7 +101,12 @@
   padding: 20px;
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+}
+
+.book-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .book-cover img {
@@ -110,6 +115,94 @@
   box-shadow: 0 10px 25px rgba(0,0,0,.2);
 }
 
+
+.book-cover {
+  flex: 0 0 340px;
+  width: 340px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.cover-display {
+  width: 320px;
+  height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.cover-display img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #6a11cb;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.carousel-btn:hover:not(:disabled) {
+  background: #4f0ba3;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carousel-btn.prev {
+  left: -5px;
+}
+
+.carousel-btn.next {
+  right: -5px;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 15px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  background: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.dot.active {
+  width: 22px;
+  border-radius: 10px;
+  background: #6a11cb;
+}
 .book-content {
   flex: 1;
 }
@@ -243,6 +336,37 @@
     justify-content: center;
   }
 
+ .book-details-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
+  .book-cover {
+    flex: none;
+    width: 280px;
+  }
+
+  .cover-display {
+    width: 250px;
+    height: 360px;
+  }
+
+  .carousel-btn.prev {
+    left: -5px;
+  }
+
+  .carousel-btn.next {
+    right: -5px;
+  }
+
+  .buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .subjects {
+    justify-content: center;
+  }
 }
 

@@ -1,0 +1,284 @@
+<section class="cart-page">
+
+  <!-- Header -->
+
+  <div class="cart-header">
+
+    <div>
+
+      <span class="eyebrow">
+        BOOKVERSE CART
+      </span>
+
+      <h1>
+        Your Cart
+      </h1>
+
+      <p>
+        Review your selected books before checkout.
+      </p>
+
+    </div>
+
+    @if (cartService.cartCount() > 0) {
+
+      <button
+        type="button"
+        class="clear-button"
+        (click)="cartService.clearCart()"
+      >
+        🗑 Clear Cart
+      </button>
+
+    }
+
+  </div>
+
+
+  <!-- Empty Cart -->
+
+  @if (cartService.cartCount() === 0) {
+
+    <div class="empty-cart">
+
+      <div class="empty-icon">
+        🛒
+      </div>
+
+      <h2>
+        Your cart is empty
+      </h2>
+
+      <p>
+        Looks like you haven't added any books yet.
+      </p>
+
+      <button
+        type="button"
+        class="shop-button"
+        (click)="continueShopping()"
+      >
+        Browse Books
+      </button>
+
+    </div>
+
+  } @else {
+
+    <!-- Cart Layout -->
+
+    <div class="cart-layout">
+
+
+      <!-- Cart Items -->
+
+      <div class="cart-items">
+
+        @for (
+          item of cartService.cart();
+          track item.id
+        ) {
+
+          <article class="cart-item">
+
+
+            <!-- Book Image -->
+
+            <div class="item-image">
+
+              @if (item.image) {
+
+                <img
+                  [src]="item.image"
+                  [alt]="item.title"
+                />
+
+              } @else {
+
+                <div class="book-placeholder">
+                  📚
+                </div>
+
+              }
+
+            </div>
+
+
+            <!-- Book Details -->
+
+            <div class="item-details">
+
+              <h2>
+                {{ item.title }}
+              </h2>
+
+              @if (item.author) {
+
+                <p class="author">
+                  {{ item.author }}
+                </p>
+
+              }
+
+              <p class="item-price">
+                ₹{{ item.price }}
+              </p>
+
+
+              <!-- Quantity -->
+
+              <div class="quantity-row">
+
+                <span>
+                  Quantity
+                </span>
+
+                <div class="quantity-control">
+
+                  <button
+                    type="button"
+                    (click)="
+                      cartService.decreaseQuantity(item.id)
+                    "
+                    aria-label="Decrease quantity"
+                  >
+                    −
+                  </button>
+
+                  <span>
+                    {{ item.quantity }}
+                  </span>
+
+                  <button
+                    type="button"
+                    (click)="
+                      cartService.increaseQuantity(item.id)
+                    "
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Item Total -->
+
+            <div class="item-right">
+
+              <strong>
+                ₹{{ item.price * item.quantity }}
+              </strong>
+
+              <button
+                type="button"
+                class="remove-button"
+                (click)="
+                  cartService.removeFromCart(item.id)
+                "
+              >
+                Remove
+              </button>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+
+      <!-- Summary -->
+
+      <aside class="cart-summary">
+
+        <h2>
+          Order Summary
+        </h2>
+
+
+        <div class="summary-row">
+
+          <span>
+            Items
+          </span>
+
+          <span>
+            {{ cartService.cartCount() }}
+          </span>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>
+            Subtotal
+          </span>
+
+          <span>
+            ₹{{ cartService.subtotal() }}
+          </span>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>
+            Delivery
+          </span>
+
+          <span class="free">
+            FREE
+          </span>
+
+        </div>
+
+
+        <div class="divider"></div>
+
+
+        <div class="total-row">
+
+          <span>
+            Total
+          </span>
+
+          <strong>
+            ₹{{ cartService.subtotal() }}
+          </strong>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="checkout-button"
+          (click)="checkout()"
+        >
+          Proceed to Checkout
+          <span>→</span>
+        </button>
+
+
+        <button
+          type="button"
+          class="continue-button"
+          (click)="continueShopping()"
+        >
+          ← Continue Shopping
+        </button>
+
+      </aside>
+
+    </div>
+
+  }
+
+</section>

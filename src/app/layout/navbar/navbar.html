@@ -55,11 +55,54 @@ placeholder="Search books..."
 
 <!-- profile/login -->
 
-<button
+<!-- <button
 class="profile"
 (click)="openProfile()">
 
 👤
+
+</button> -->
+
+<!-- Login / Profile -->
+  <!-- Login / Profile -->
+
+<!-- Cart -->
+ 
+<button
+  class="cart"
+  type="button"
+  (click)="openCart()"
+  aria-label="Shopping cart"
+>
+  🛒
+
+  @if (cart.cartCount() > 0) {
+    <span class="cart-count">
+      {{ cart.cartCount() }}
+    </span>
+  }
+</button>
+
+
+
+   <button
+  class="profile"
+  type="button"
+  (click)="openProfile()">
+
+  @if (authService.isLoggedIn()) {
+
+    <span class="profile-icon">👤</span>
+
+    <span class="profile-name">
+      {{ authService.user()?.name }}
+    </span>
+
+  } @else {
+
+    <span class="login-icon">🔐</span>
+
+  }
 
 </button>
 

@@ -1,54 +1,56 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-selector:'app-profile',
-standalone:true,
-templateUrl:'./profile.html',
-styleUrl:'./profile.scss'
+  selector: 'app-profile',
+  standalone: true,
+  templateUrl: './profile.html',
+  styleUrl: './profile.scss'
 })
 export class Profile {
 
+  favorites = 0;
+  library = 0;
 
-user={
+  constructor(
+    public authService: AuthService,
+    public router: Router
+  ) {
+    this.loadStats();
+  }
 
-name:'Book Lover',
+  get user() {
+    return this.authService.user();
+  }
 
-email:'reader@bookverse.com',
+  loadStats(): void {
 
-avatar:'👤'
+    const fav = localStorage.getItem('favorites');
+    const lib = localStorage.getItem('library');
 
-};
+    try {
+      this.favorites = fav
+        ? JSON.parse(fav).length
+        : 0;
+    } catch {
+      this.favorites = 0;
+    }
 
+    try {
+      this.library = lib
+        ? JSON.parse(lib).length
+        : 0;
+    } catch {
+      this.library = 0;
+    }
+  }
 
+  logout(): void {
 
-favorites=0;
+    this.authService.logout();
 
-library=0;
-
-
-
-constructor(){
-
-
-const fav =
-localStorage.getItem('favorites');
-
-
-const lib =
-localStorage.getItem('library');
-
-
-this.favorites =
-fav ? JSON.parse(fav).length : 0;
-
-
-this.library =
-lib ? JSON.parse(lib).length : 0;
-
-
-}
-
-
-
+    this.router.navigate(['/']);
+  }
 }

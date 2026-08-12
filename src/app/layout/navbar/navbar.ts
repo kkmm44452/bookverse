@@ -3,6 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Menu } from '../../core/services/menu';
 import { SearchService } from '../../core/services/search';
+import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart';
+
 
 @Component({
 
@@ -31,7 +34,9 @@ export class Navbar {
 
     public menu: Menu,
     private router: Router,
-    private searchService: SearchService
+    private searchService: SearchService,
+    public authService: AuthService,
+    public cart: CartService
 
   ) { }
 
@@ -58,20 +63,32 @@ export class Navbar {
   }
 
 
-  openProfile() {
+  // openProfile() {
 
-    if (this.router.url === '/profile') {
+  //   if (this.router.url === '/profile') {
 
-      this.router.navigate(['/']);
+  //     this.router.navigate(['/']);
 
-    }
-    else {
+  //   }
+  //   else {
 
+  //     this.router.navigate(['/profile']);
+
+  //   }
+
+  // }
+openProfile(): void {
+
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/profile']);
-
+    } else {
+      this.router.navigate(['/signin']);
     }
 
   }
 
+   openCart(): void {
+    this.router.navigate(['/cart']);
+  }
 
 }

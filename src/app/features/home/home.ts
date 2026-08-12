@@ -67,7 +67,7 @@ export class Home implements OnInit {
 
 
         error: () => {
-
+          
           this.loading = false;
 
         }

@@ -1,0 +1,186 @@
+.signin-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f5f1e8,
+      #eee7d8
+    );
+}
+
+.signin-card {
+  width: 100%;
+  max-width: 430px;
+
+  padding: 2.5rem;
+
+  background: #ffffff;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.signin-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+}
+
+.signin-header h1 {
+  margin: 0;
+
+  color: #2d241c;
+
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.signin-header p {
+  margin-top: 0.6rem;
+
+  color: #756b61;
+
+  font-size: 0.95rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 0.5rem;
+
+  color: #332920;
+
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 0.85rem 1rem;
+
+  border: 1px solid #d8d0c5;
+  border-radius: 9px;
+
+  outline: none;
+
+  font-size: 1rem;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #8b5e34;
+
+  box-shadow:
+    0 0 0 3px rgba(139, 94, 52, 0.12);
+}
+
+.form-group input.invalid {
+  border-color: #dc3545;
+}
+
+.field-error {
+  display: block;
+
+  margin-top: 0.4rem;
+
+  color: #dc3545;
+
+  font-size: 0.82rem;
+}
+
+.alert {
+  padding: 0.8rem 1rem;
+
+  margin-bottom: 1.25rem;
+
+  border-radius: 8px;
+
+  font-size: 0.9rem;
+}
+
+.alert.error {
+  color: #842029;
+
+  background: #f8d7da;
+
+  border: 1px solid #f5c2c7;
+}
+
+.signin-button {
+  width: 100%;
+
+  padding: 0.9rem 1rem;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #8b5e34;
+
+  color: #ffffff;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    transform 0.1s;
+}
+
+.signin-button:hover:not(:disabled) {
+  background: #70491f;
+}
+
+.signin-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.signin-button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+.signup-link {
+  margin-top: 1.5rem;
+
+  text-align: center;
+
+  color: #756b61;
+
+  font-size: 0.9rem;
+}
+
+.signup-link a {
+  margin-left: 0.35rem;
+
+  color: #8b5e34;
+
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}

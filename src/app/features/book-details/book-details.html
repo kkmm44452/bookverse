@@ -122,13 +122,40 @@ Subjects
 
 <section class="book-details-container">
 
-  <div class="book-cover">
+ <div class="book-cover">
 
+  <button
+    class="carousel-btn prev"
+    (click)="previousCover()"
+    [disabled]="currentCoverIndex === 0">
+    ❮
+  </button>
+
+  <div class="cover-display">
     <img
-      [src]="getCover()"
-      [alt]="book.title">
-
+      [src]="getCovers()[currentCoverIndex]"
+      [alt]="book?.title + ' cover'"
+    />
   </div>
+
+  <button
+    class="carousel-btn next"
+    (click)="nextCover()"
+    [disabled]="currentCoverIndex === getCovers().length - 1">
+    ❯
+  </button>
+
+  <!-- Dots -->
+  <div class="carousel-dots">
+    <span
+      *ngFor="let cover of getCovers(); let i = index"
+      class="dot"
+      [class.active]="i === currentCoverIndex"
+      (click)="goToCover(i)">
+    </span>
+  </div>
+
+</div>
 
   <div class="book-content">
 

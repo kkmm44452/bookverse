@@ -1,0 +1,603 @@
+/* =================================
+   PAGE
+================================= */
+
+.success-page {
+
+  min-height: 100vh;
+
+  padding: 50px 20px 70px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8f5ff,
+      #f2edff
+    );
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+/* =================================
+   SUCCESS HEADER
+================================= */
+
+.success-header {
+
+  text-align: center;
+
+  margin-bottom: 30px;
+}
+
+
+.success-circle {
+
+  width: 72px;
+  height: 72px;
+
+  margin: 0 auto 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #22c55e,
+      #16a34a
+    );
+
+  color: white;
+
+  font-size: 40px;
+  font-weight: 700;
+
+  box-shadow:
+    0 12px 30px
+    rgba(34, 197, 94, 0.3);
+}
+
+
+.success-header h1 {
+
+  margin: 0;
+
+  color: #2c1c46;
+
+  font-size: 30px;
+}
+
+
+.success-header p {
+
+  margin-top: 8px;
+
+  color: #756d80;
+
+  font-size: 15px;
+}
+
+
+/* =================================
+   RECEIPT
+================================= */
+
+.receipt {
+
+  width: 100%;
+  max-width: 430px;
+
+  padding: 30px 26px;
+
+  background: #fff;
+
+  color: #292929;
+
+  box-shadow:
+    0 20px 60px
+    rgba(54, 35, 80, 0.15);
+
+  position: relative;
+}
+
+
+/*
+   Receipt paper effect
+*/
+
+.receipt::before {
+
+  content: '';
+
+  position: absolute;
+
+  top: -8px;
+  left: 0;
+  right: 0;
+
+  height: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      transparent 5px,
+      #fff 5px
+    );
+
+  background-size: 10px 10px;
+}
+
+
+/* =================================
+   RECEIPT HEADER
+================================= */
+
+.receipt-header {
+
+  text-align: center;
+}
+
+
+.store-name {
+
+  font-size: 27px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  color: #5f3ba7;
+}
+
+
+.store-subtitle {
+
+  margin-top: 5px;
+
+  font-size: 10px;
+
+  letter-spacing: 2px;
+
+  color: #888;
+}
+
+
+.receipt-title {
+
+  margin: 12px 0;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+
+.receipt-line {
+
+  overflow: hidden;
+
+  color: #aaa;
+
+  font-size: 12px;
+}
+
+
+/* =================================
+   ORDER INFO
+================================= */
+
+.order-info {
+
+  margin-top: 20px;
+}
+
+
+.info-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin: 8px 0;
+
+  font-size: 12px;
+}
+
+
+.info-row span {
+
+  color: #777;
+}
+
+
+.info-row strong {
+
+  text-align: right;
+
+  max-width: 220px;
+
+  word-break: break-all;
+}
+
+
+.paid {
+
+  color: #16a34a !important;
+
+  font-weight: 800;
+}
+
+
+/* =================================
+   LINES
+================================= */
+
+.dashed-line {
+
+  height: 1px;
+
+  margin: 18px 0;
+
+  border-top:
+    1px dashed #cfcfcf;
+}
+
+
+/* =================================
+   ITEMS
+================================= */
+
+.items-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: #777;
+}
+
+
+.item-row {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  font-size: 13px;
+}
+
+
+.item-name {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.item-name strong {
+
+  font-size: 13px;
+}
+
+
+.item-name small {
+
+  color: #888;
+
+  font-size: 10px;
+}
+
+
+/* =================================
+   TOTALS
+================================= */
+
+.total-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin: 9px 0;
+
+  font-size: 13px;
+
+  color: #555;
+}
+
+
+.grand-total {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-top: 15px;
+
+  font-size: 18px;
+
+  font-weight: 800;
+
+  color: #24163b;
+}
+
+
+.grand-total strong {
+
+  color: #5f3ba7;
+}
+
+
+/* =================================
+   PAYMENT
+================================= */
+
+.payment-section {
+
+  text-align: center;
+
+  padding: 10px 0;
+}
+
+
+.payment-status {
+
+  color: #16a34a;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+
+.payment-section p {
+
+  margin: 7px 0 0;
+
+  font-size: 10px;
+
+  color: #888;
+}
+
+
+/* =================================
+   FOOTER
+================================= */
+
+.receipt-footer {
+
+  margin-top: 20px;
+
+  text-align: center;
+
+  color: #777;
+
+  font-size: 11px;
+}
+
+
+.receipt-footer p {
+
+  margin: 0 0 5px;
+}
+
+
+.receipt-footer strong {
+
+  display: block;
+
+  color: #5f3ba7;
+
+  font-size: 14px;
+
+  letter-spacing: 2px;
+}
+
+
+.receipt-footer small {
+
+  display: block;
+
+  margin-top: 5px;
+
+  color: #999;
+}
+
+
+/* =================================
+   ACTIONS
+================================= */
+
+.actions {
+
+  width: 100%;
+
+  max-width: 430px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-top: 25px;
+}
+
+
+.actions button {
+
+  width: 100%;
+
+  min-height: 48px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.actions button:hover {
+
+  transform: translateY(-2px);
+}
+
+
+.print-button {
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c4ab6,
+      #8b5cf6
+    );
+
+  box-shadow:
+    0 8px 20px
+    rgba(108, 74, 182, 0.25);
+}
+
+
+.orders-button {
+
+  color: #5f3ba7;
+
+  background: white;
+
+  border: 1px solid #ddd !important;
+}
+
+
+.continue-button {
+
+  color: #666;
+
+  background: transparent;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 500px) {
+
+  .success-page {
+
+    padding:
+      30px 14px
+      50px;
+  }
+
+
+  .success-header h1 {
+
+    font-size: 25px;
+  }
+
+
+  .receipt {
+
+    padding: 25px 20px;
+  }
+
+
+  .store-name {
+
+    font-size: 23px;
+  }
+
+}
+
+
+/* =================================
+   PRINT
+================================= */
+
+@media print {
+
+  body {
+
+    background: white !important;
+  }
+
+
+  .success-page {
+
+    padding: 0;
+
+    background: white;
+  }
+
+
+  .success-header {
+
+    display: none;
+  }
+
+
+  .receipt {
+
+    max-width: 80mm;
+
+    width: 80mm;
+
+    padding: 10px;
+
+    box-shadow: none;
+
+    margin: 0 auto;
+  }
+
+
+  .actions {
+
+    display: none;
+  }
+
+}

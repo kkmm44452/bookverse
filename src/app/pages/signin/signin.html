@@ -1,0 +1,145 @@
+<div class="signin-page">
+
+  <div class="signin-card">
+
+    <!-- Header -->
+    <div class="signin-header">
+
+      <div class="logo">
+        📚
+      </div>
+
+      <h1>Welcome Back</h1>
+
+      <p>
+        Sign in to continue your BookVerse reading journey.
+      </p>
+
+    </div>
+
+    <!-- Error -->
+    @if (errorMessage) {
+
+      <div class="alert error">
+        {{ errorMessage }}
+      </div>
+
+    }
+
+    <!-- Success -->
+    @if (successMessage) {
+
+      <div class="alert success">
+        {{ successMessage }}
+      </div>
+
+    }
+
+    <!-- Form -->
+    <form
+      [formGroup]="signinForm"
+      (ngSubmit)="signin()"
+      novalidate
+    >
+
+      <!-- Email -->
+      <div class="form-group">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          [class.invalid]="email.touched && email.invalid"
+        />
+
+        @if (email.touched && email.invalid) {
+
+          <small class="field-error">
+
+            @if (email.errors?.['required']) {
+              Email is required.
+            }
+
+            @if (email.errors?.['email']) {
+              Please enter a valid email address.
+            }
+
+          </small>
+
+        }
+
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          [class.invalid]="password.touched && password.invalid"
+        />
+
+        @if (password.touched && password.invalid) {
+
+          <small class="field-error">
+
+            @if (password.errors?.['required']) {
+              Password is required.
+            }
+
+            @if (password.errors?.['minlength']) {
+              Password must contain at least 8 characters.
+            }
+
+          </small>
+
+        }
+
+      </div>
+
+      <!-- Submit -->
+      <button
+        type="submit"
+        class="signin-button"
+        [disabled]="loading"
+      >
+
+        @if (loading) {
+          Signing In...
+        } @else {
+          Sign In
+        }
+
+      </button>
+
+    </form>
+
+    <!-- Signup -->
+    <div class="signup-link">
+
+      <span>
+        Don't have an account?
+      </span>
+
+      <a routerLink="/signup">
+        Sign up
+      </a>
+
+    </div>
+
+  </div>
+
+</div>

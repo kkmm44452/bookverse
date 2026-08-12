@@ -1,0 +1,264 @@
+<div class="success-page">
+
+  <!-- Success Header -->
+
+  <div class="success-header">
+
+    <div class="success-circle">
+      ✓
+    </div>
+
+    <h1>
+      Payment Successful
+    </h1>
+
+    <p>
+      Thank you for your purchase!
+    </p>
+
+  </div>
+
+
+  <!-- Receipt -->
+
+  <div class="receipt">
+
+    <!-- Receipt Header -->
+
+    <div class="receipt-header">
+
+      <div class="store-name">
+        BOOKVERSE
+      </div>
+
+      <div class="store-subtitle">
+        BOOKS • READ • DISCOVER
+      </div>
+
+      <div class="receipt-line">
+        --------------------------------
+      </div>
+
+      <div class="receipt-title">
+        SALES RECEIPT
+      </div>
+
+    </div>
+
+
+    <!-- Order Information -->
+
+    <div class="order-info">
+
+      <div class="info-row">
+
+        <span>
+          Order ID
+        </span>
+
+        <strong>
+          {{ orderId || 'N/A' }}
+        </strong>
+
+      </div>
+
+
+      <div class="info-row">
+
+        <span>
+          Date
+        </span>
+
+        <strong>
+          {{ today | date:'dd/MM/yyyy' }}
+        </strong>
+
+      </div>
+
+
+      <div class="info-row">
+
+        <span>
+          Payment
+        </span>
+
+        <strong class="paid">
+          PAID
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="dashed-line"></div>
+
+
+    <!-- Items -->
+
+    <div class="items">
+
+      <div class="items-header">
+
+        <span>
+          ITEM
+        </span>
+
+        <span>
+          AMOUNT
+        </span>
+
+      </div>
+
+
+      <!-- Example item -->
+
+      <div class="item-row">
+
+        <div class="item-name">
+
+          <strong>
+            Book Purchase
+          </strong>
+
+          <small>
+            BookVerse
+          </small>
+
+        </div>
+
+        <span>
+          ₹500.00
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="dashed-line"></div>
+
+
+    <!-- Totals -->
+
+    <div class="totals">
+
+      <div class="total-row">
+
+        <span>
+          Subtotal
+        </span>
+
+        <span>
+          ₹500.00
+        </span>
+
+      </div>
+
+
+      <div class="total-row">
+
+        <span>
+          Delivery
+        </span>
+
+        <span>
+          ₹0.00
+        </span>
+
+      </div>
+
+
+      <div class="dashed-line"></div>
+
+
+      <div class="grand-total">
+
+        <span>
+          TOTAL
+        </span>
+
+        <strong>
+          ₹500.00
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="dashed-line"></div>
+
+
+    <!-- Payment -->
+
+    <div class="payment-section">
+
+      <div class="payment-status">
+        ✓ PAYMENT SUCCESSFUL
+      </div>
+
+      <p>
+        Your payment has been verified securely.
+      </p>
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <div class="receipt-footer">
+
+      <p>
+        Thank you for shopping with
+      </p>
+
+      <strong>
+        BOOKVERSE 📚
+      </strong>
+
+      <small>
+        Happy Reading!
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <!-- Actions -->
+
+  <div class="actions">
+
+    <button
+      class="print-button"
+      type="button"
+      (click)="printReceipt()">
+
+      🖨️ Print Receipt
+
+    </button>
+
+
+    <button
+      class="orders-button"
+      type="button"
+      (click)="viewOrders()">
+
+      📦 View Orders
+
+    </button>
+
+
+    <button
+      class="continue-button"
+      type="button"
+      (click)="continueShopping()">
+
+      ← Continue Shopping
+
+    </button>
+
+  </div>
+
+</div>

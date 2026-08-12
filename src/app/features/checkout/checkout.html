@@ -1,0 +1,495 @@
+<section class="checkout-page">
+
+  <!-- Header -->
+
+  <div class="checkout-header">
+
+    <button
+      class="back-button"
+      type="button"
+      (click)="backToCart()">
+
+      ← Back to Cart
+
+    </button>
+
+    <h1>
+      Checkout
+    </h1>
+
+    <p>
+      Enter your delivery address
+    </p>
+
+  </div>
+
+
+  <!-- Progress -->
+
+  <div class="checkout-progress">
+
+    <div class="step active">
+
+      <span>1</span>
+
+      <div>
+        <strong>Address</strong>
+        <small>Delivery details</small>
+      </div>
+
+    </div>
+
+
+    <div class="line"></div>
+
+
+    <div class="step">
+
+      <span>2</span>
+
+      <div>
+        <strong>Payment</strong>
+        <small>Choose payment</small>
+      </div>
+
+    </div>
+
+
+    <div class="line"></div>
+
+
+    <div class="step">
+
+      <span>3</span>
+
+      <div>
+        <strong>Complete</strong>
+        <small>Order confirmation</small>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="checkout-layout">
+
+
+    <!-- Address -->
+
+    <div class="address-card">
+
+      <div class="card-header">
+
+        <div>
+
+          <h2>
+            📍 Delivery Address
+          </h2>
+
+          <p>
+            Where should we deliver your books?
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <form
+        [formGroup]="addressForm"
+        (ngSubmit)="continueToPayment()"
+        novalidate>
+
+
+        <!-- Name -->
+
+        <div class="form-group">
+
+          <label for="fullName">
+            Full Name
+          </label>
+
+          <input
+            id="fullName"
+            type="text"
+            formControlName="fullName"
+            placeholder="Enter your full name"
+            autocomplete="name"
+            [class.invalid]="
+              fullName.touched &&
+              fullName.invalid
+            "
+          />
+
+          @if (
+            fullName.touched &&
+            fullName.invalid
+          ) {
+
+            <small class="error">
+
+              @if (
+                fullName.errors?.['required']
+              ) {
+                Full name is required.
+              }
+
+              @if (
+                fullName.errors?.['minlength']
+              ) {
+                Please enter a valid name.
+              }
+
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Mobile -->
+
+        <div class="form-group">
+
+          <label for="mobileNumber">
+            Mobile Number
+          </label>
+
+          <input
+            id="mobileNumber"
+            type="tel"
+            maxlength="10"
+            formControlName="mobileNumber"
+            placeholder="9876543210"
+            autocomplete="tel"
+            [class.invalid]="
+              mobileNumber.touched &&
+              mobileNumber.invalid
+            "
+          />
+
+          @if (
+            mobileNumber.touched &&
+            mobileNumber.invalid
+          ) {
+
+            <small class="error">
+
+              Please enter a valid
+              10-digit mobile number.
+
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Address -->
+
+        <div class="form-group">
+
+          <label for="addressLine1">
+            Address
+          </label>
+
+          <input
+            id="addressLine1"
+            type="text"
+            formControlName="addressLine1"
+            placeholder="House / Flat / Building / Street"
+            autocomplete="street-address"
+            [class.invalid]="
+              addressLine1.touched &&
+              addressLine1.invalid
+            "
+          />
+
+          @if (
+            addressLine1.touched &&
+            addressLine1.invalid
+          ) {
+
+            <small class="error">
+              Please enter your address.
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Address 2 -->
+
+        <div class="form-group">
+
+          <label for="addressLine2">
+
+            Address Line 2
+
+            <span>
+              Optional
+            </span>
+
+          </label>
+
+          <input
+            id="addressLine2"
+            type="text"
+            formControlName="addressLine2"
+            placeholder="Landmark, Area, etc."
+          />
+
+        </div>
+
+
+        <!-- City / State -->
+
+        <div class="two-columns">
+
+          <div class="form-group">
+
+            <label for="city">
+              City
+            </label>
+
+            <input
+              id="city"
+              type="text"
+              formControlName="city"
+              placeholder="Mumbai"
+              [class.invalid]="
+                city.touched &&
+                city.invalid
+              "
+            />
+
+            @if (
+              city.touched &&
+              city.invalid
+            ) {
+
+              <small class="error">
+                City is required.
+              </small>
+
+            }
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="state">
+              State
+            </label>
+
+            <input
+              id="state"
+              type="text"
+              formControlName="state"
+              placeholder="Maharashtra"
+              [class.invalid]="
+                state.touched &&
+                state.invalid
+              "
+            />
+
+            @if (
+              state.touched &&
+              state.invalid
+            ) {
+
+              <small class="error">
+                State is required.
+              </small>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- Pincode -->
+
+        <div class="form-group">
+
+          <label for="pincode">
+            Pincode
+          </label>
+
+          <input
+            id="pincode"
+            type="text"
+            maxlength="6"
+            formControlName="pincode"
+            placeholder="400050"
+            autocomplete="postal-code"
+            [class.invalid]="
+              pincode.touched &&
+              pincode.invalid
+            "
+          />
+
+          @if (
+            pincode.touched &&
+            pincode.invalid
+          ) {
+
+            <small class="error">
+              Please enter a valid 6-digit pincode.
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- Submit -->
+
+        <button
+          type="submit"
+          class="payment-button"
+          [disabled]="loading">
+
+          @if (loading) {
+
+            Continue...
+
+          } @else {
+
+            Continue to Payment
+            <span>→</span>
+
+          }
+
+        </button>
+
+      </form>
+
+    </div>
+
+
+    <!-- Order Summary -->
+
+    <aside class="order-summary">
+
+      <h2>
+        Order Summary
+      </h2>
+
+
+      <div class="summary-items">
+
+        @for (
+          item of cartItems;
+          track item.id
+        ) {
+
+          <div class="summary-item">
+
+            <div class="summary-image">
+
+              @if (item.image) {
+
+                <img
+                  [src]="item.image"
+                  [alt]="item.title"
+                />
+
+              } @else {
+
+                📚
+
+              }
+
+            </div>
+
+            <div class="summary-details">
+
+              <strong>
+                {{ item.title }}
+              </strong>
+
+              <span>
+                Qty: {{ item.quantity }}
+              </span>
+
+            </div>
+
+            <strong>
+              ₹{{ item.price * item.quantity }}
+            </strong>
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <div class="summary-divider"></div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Subtotal
+        </span>
+
+        <strong>
+          ₹{{ subtotal }}
+        </strong>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Delivery
+        </span>
+
+        <strong
+          [class.free]="deliveryCharge === 0">
+
+          @if (deliveryCharge === 0) {
+            FREE
+          } @else {
+            ₹{{ deliveryCharge }}
+          }
+
+        </strong>
+
+      </div>
+
+
+      <div class="summary-divider"></div>
+
+
+      <div class="total-row">
+
+        <span>
+          Total
+        </span>
+
+        <strong>
+          ₹{{ total }}
+        </strong>
+
+      </div>
+
+
+      <div class="secure-message">
+
+        🔒 Secure checkout
+
+      </div>
+
+    </aside>
+
+  </div>
+
+</section>

@@ -31,7 +31,7 @@ export class BookDetails implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
 
-    // console.log("Book ID:", id);
+     console.log("Book ID:", id);
 
 
 
@@ -42,7 +42,7 @@ export class BookDetails implements OnInit {
 
           next: (response) => {
 
-            // console.log("Book Data:", response);
+             console.log("Book Data:", response);
 
 
             this.book = response;
@@ -117,6 +117,37 @@ export class BookDetails implements OnInit {
     return 'assets/no-book-cover.png';
 
   }
+
+ getCovers(): string[] {
+  if (this.book?.covers?.length) {
+    return this.book.covers
+      .filter((id: number) => id !== -1)
+      .map((id: number) => `https://covers.openlibrary.org/b/id/${id}-L.jpg`);
+  }
+
+  return ['assets/no-book-cover.png'];
+}
+
+currentCoverIndex = 0;
+
+previousCover(): void {
+  if (this.currentCoverIndex > 0) {
+    this.currentCoverIndex--;
+  }
+}
+
+nextCover(): void {
+  const covers = this.getCovers();
+
+  if (this.currentCoverIndex < covers.length - 1) {
+    this.currentCoverIndex++;
+  }
+}
+
+goToCover(index: number): void {
+  this.currentCoverIndex = index;
+}
+
 
   getDescription(): string {
     if (!this.book?.description) {

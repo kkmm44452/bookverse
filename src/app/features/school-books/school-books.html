@@ -1,4 +1,4 @@
-<section class="school-books-page">
+<!-- <section class="school-books-page">
 
   <div class="page-header">
 
@@ -89,5 +89,131 @@
     }
 
   </div>
+
+</section> -->
+
+
+<section class="school-books-page">
+
+  <div class="page-header">
+
+    <div>
+      <span class="eyebrow">
+        EDUCATION
+      </span>
+
+      <h1>
+        School Books
+      </h1>
+
+      <p>
+        NCERT books for Classes 1–12.
+      </p>
+    </div>
+
+  </div>
+
+
+  @if (loading) {
+
+  <div class="loading">
+    Loading NCERT books...
+  </div>
+
+  }
+
+
+  @if (error) {
+
+  <div class="error">
+    {{ error }}
+  </div>
+
+  }
+
+
+  @if (!loading && !error) {
+
+  <div class="books-grid">
+
+    @for (book of books; track book.id) {
+
+    <article class="book-card">
+
+      <div class="book-image">
+
+        <img [src]="book.image" [alt]="book.title" />
+
+      </div>
+
+
+      <div class="book-content">
+
+        <span class="class-badge">
+          {{ book.className }}
+        </span>
+
+        <h2>
+          {{ book.title }}
+        </h2>
+
+        <p class="author">
+          {{ book.subject }} · {{ book.language }}
+        </p>
+
+
+        <!-- <div class="book-actions">
+
+              <button
+                type="button"
+                class="details-button"
+                (click)="viewDetails(book)"
+              >
+                View Details
+              </button>
+
+
+              @if (book.officialUrl) {
+
+                <a
+                  class="cart-button"
+                  [href]="book.officialUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  📖 Read Book
+                </a>
+
+              }
+
+            </div> -->
+
+        <div class="book-actions">
+
+          <button type="button" class="details-button" (click)="viewDetails(book)">
+            View Details
+          </button>
+
+          <button type="button" class="cart-button" [disabled]="cart.isInCart(book.id)" (click)="addToCart(book)">
+            @if (cart.isInCart(book.id)) {
+            ✓ Added
+            } @else {
+            🛒 Add to Cart
+            }
+          </button>
+
+        </div>
+
+
+
+      </div>
+
+    </article>
+
+    }
+
+  </div>
+
+  }
 
 </section>

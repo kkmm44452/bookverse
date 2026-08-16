@@ -56,6 +56,7 @@ export type NcertBookSkeleton = EntrySkeletonType<
     booktitle: EntryFieldTypes.Text;
     class: EntryFieldTypes.Text;
     subject: EntryFieldTypes.Text;
+    price : EntryFieldTypes.Number;
     lang: EntryFieldTypes.Text;
     description: EntryFieldTypes.Text;
     coverimage: EntryFieldTypes.AssetLink;
@@ -83,6 +84,7 @@ export class ContentfulService {
       include: 2
     });
 
+   // console.log(response);
     return response.items;
   }
 }

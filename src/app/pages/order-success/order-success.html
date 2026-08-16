@@ -1,170 +1,170 @@
 <div class="success-page">
 
-  <!-- Success Header -->
+  <!-- ============================= -->
+  <!-- LOADING -->
+  <!-- ============================= -->
 
-  <div class="success-header">
+  <div
+    class="loading"
+    *ngIf="loading">
 
     <div class="success-circle">
       ✓
     </div>
 
-    <h1>
-      Payment Successful
-    </h1>
+    <h2>
+      Loading your order...
+    </h2>
 
     <p>
-      Thank you for your purchase!
+      Please wait while we fetch your receipt.
     </p>
 
   </div>
 
 
-  <!-- Receipt -->
+  <!-- ============================= -->
+  <!-- ERROR -->
+  <!-- ============================= -->
 
-  <div class="receipt">
+  <div
+    class="order-error"
+    *ngIf="!loading && !order">
 
-    <!-- Receipt Header -->
+    <div class="success-circle">
+      !
+    </div>
 
-    <div class="receipt-header">
+    <h2>
+      Unable to load order
+    </h2>
 
-      <div class="store-name">
-        BOOKVERSE
+    <p>
+      {{ errorMessage }}
+    </p>
+
+    <button
+      type="button"
+      (click)="continueShopping()">
+
+      Continue Shopping
+
+    </button>
+
+  </div>
+
+
+  <!-- ============================= -->
+  <!-- SUCCESS -->
+  <!-- ============================= -->
+
+  <ng-container *ngIf="!loading && order">
+
+    <!-- Success Header -->
+
+    <div class="success-header">
+
+      <div class="success-circle">
+        ✓
       </div>
 
-      <div class="store-subtitle">
-        BOOKS • READ • DISCOVER
-      </div>
+      <h1>
+        Payment Successful
+      </h1>
 
-      <div class="receipt-line">
-        --------------------------------
-      </div>
-
-      <div class="receipt-title">
-        SALES RECEIPT
-      </div>
+      <p>
+        Thank you for your purchase!
+      </p>
 
     </div>
 
 
-    <!-- Order Information -->
+    <!-- Receipt -->
 
-    <div class="order-info">
-
-      <div class="info-row">
-
-        <span>
-          Order ID
-        </span>
-
-        <strong>
-          {{ orderId || 'N/A' }}
-        </strong>
-
-      </div>
+    <div class="receipt">
 
 
-      <div class="info-row">
+      <!-- Receipt Header -->
 
-        <span>
-          Date
-        </span>
+      <div class="receipt-header">
 
-        <strong>
-          {{ today | date:'dd/MM/yyyy' }}
-        </strong>
+        <div class="store-name">
+          BOOKVERSE
+        </div>
+
+        <div class="store-subtitle">
+          BOOKS • READ • DISCOVER
+        </div>
+
+        <div class="receipt-line">
+          --------------------------------
+        </div>
+
+        <div class="receipt-title">
+          SALES RECEIPT
+        </div>
 
       </div>
 
 
-      <div class="info-row">
+      <!-- Order Information -->
 
-        <span>
-          Payment
-        </span>
+      <div class="order-info">
 
-        <strong class="paid">
-          PAID
-        </strong>
+        <div class="info-row">
 
-      </div>
-
-    </div>
-
-
-    <div class="dashed-line"></div>
-
-
-    <!-- Items -->
-
-    <div class="items">
-
-      <div class="items-header">
-
-        <span>
-          ITEM
-        </span>
-
-        <span>
-          AMOUNT
-        </span>
-
-      </div>
-
-
-      <!-- Example item -->
-
-      <div class="item-row">
-
-        <div class="item-name">
+          <span>
+            Order ID
+          </span>
 
           <strong>
-            Book Purchase
+            {{ order.order_number }}
           </strong>
-
-          <small>
-            BookVerse
-          </small>
 
         </div>
 
-        <span>
-          ₹500.00
-        </span>
 
-      </div>
+        <div class="info-row">
 
-    </div>
+          <span>
+            Date
+          </span>
 
+          <strong>
+            {{ order.created_at | date:'dd/MM/yyyy' }}
+          </strong>
 
-    <div class="dashed-line"></div>
-
-
-    <!-- Totals -->
-
-    <div class="totals">
-
-      <div class="total-row">
-
-        <span>
-          Subtotal
-        </span>
-
-        <span>
-          ₹500.00
-        </span>
-
-      </div>
+        </div>
 
 
-      <div class="total-row">
+        <div class="info-row">
 
-        <span>
-          Delivery
-        </span>
+          <span>
+            Payment
+          </span>
 
-        <span>
-          ₹0.00
-        </span>
+          <strong class="paid">
+
+            {{ order.payment_status | uppercase }}
+
+          </strong>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Order Status
+          </span>
+
+          <strong>
+
+            {{ order.order_status | uppercase }}
+
+          </strong>
+
+        </div>
 
       </div>
 
@@ -172,93 +172,179 @@
       <div class="dashed-line"></div>
 
 
-      <div class="grand-total">
+      <!-- Items -->
 
-        <span>
-          TOTAL
-        </span>
+      <div class="items">
+
+        <div class="items-header">
+
+          <span>
+            ITEM
+          </span>
+
+          <span>
+            AMOUNT
+          </span>
+
+        </div>
+
+
+        <div class="item-row">
+
+          <div class="item-name">
+
+            <strong>
+              Book Purchase
+            </strong>
+
+            <small>
+              BOOKVERSE
+            </small>
+
+          </div>
+
+          <span>
+
+            ₹{{ order.total_amount | number:'1.2-2' }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="dashed-line"></div>
+
+
+      <!-- Totals -->
+
+      <div class="totals">
+
+        <div class="total-row">
+
+          <span>
+            Subtotal
+          </span>
+
+          <span>
+
+            ₹{{ order.total_amount | number:'1.2-2' }}
+
+          </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+          <span>
+            Delivery
+          </span>
+
+          <span>
+            ₹0.00
+          </span>
+
+        </div>
+
+
+        <div class="dashed-line"></div>
+
+
+        <div class="grand-total">
+
+          <span>
+            TOTAL
+          </span>
+
+          <strong>
+
+            ₹{{ order.total_amount | number:'1.2-2' }}
+
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="dashed-line"></div>
+
+
+      <!-- Payment -->
+
+      <div class="payment-section">
+
+        <div class="payment-status">
+
+          ✓ PAYMENT SUCCESSFUL
+
+        </div>
+
+        <p>
+          Your payment has been verified securely.
+        </p>
+
+      </div>
+
+
+      <!-- Footer -->
+
+      <div class="receipt-footer">
+
+        <p>
+          Thank you for shopping with
+        </p>
 
         <strong>
-          ₹500.00
+          BOOKVERSE 📚
         </strong>
 
+        <small>
+          Happy Reading!
+        </small>
+
       </div>
 
     </div>
 
 
-    <div class="dashed-line"></div>
+    <!-- Actions -->
+
+    <div class="actions">
+
+      <button
+        class="print-button"
+        type="button"
+        (click)="printReceipt()">
+
+        🖨️ Print Receipt
+
+      </button>
 
 
-    <!-- Payment -->
+      <button
+        class="orders-button"
+        type="button"
+        (click)="viewOrders()">
 
-    <div class="payment-section">
+        📦 View Orders
 
-      <div class="payment-status">
-        ✓ PAYMENT SUCCESSFUL
-      </div>
+      </button>
 
-      <p>
-        Your payment has been verified securely.
-      </p>
+
+      <button
+        class="continue-button"
+        type="button"
+        (click)="continueShopping()">
+
+        ← Continue Shopping
+
+      </button>
 
     </div>
 
-
-    <!-- Footer -->
-
-    <div class="receipt-footer">
-
-      <p>
-        Thank you for shopping with
-      </p>
-
-      <strong>
-        BOOKVERSE 📚
-      </strong>
-
-      <small>
-        Happy Reading!
-      </small>
-
-    </div>
-
-  </div>
-
-
-  <!-- Actions -->
-
-  <div class="actions">
-
-    <button
-      class="print-button"
-      type="button"
-      (click)="printReceipt()">
-
-      🖨️ Print Receipt
-
-    </button>
-
-
-    <button
-      class="orders-button"
-      type="button"
-      (click)="viewOrders()">
-
-      📦 View Orders
-
-    </button>
-
-
-    <button
-      class="continue-button"
-      type="button"
-      (click)="continueShopping()">
-
-      ← Continue Shopping
-
-    </button>
-
-  </div>
+  </ng-container>
 
 </div>

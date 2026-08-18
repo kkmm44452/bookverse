@@ -129,13 +129,83 @@ export class CartService {
     )
   );
 
+  // readonly subtotal = computed(() =>
+  //   this.cartSignal().reduce(
+  //     (total, item) =>
+  //       total + (item.price * item.quantity),
+  //     0
+  //   )
+  // );
+
+
   readonly subtotal = computed(() =>
     this.cartSignal().reduce(
       (total, item) =>
-        total + (item.price * item.quantity),
+        total + (Number(item.price) * item.quantity),
       0
     )
   );
+
+// ----------------------------------
+// CHARGES
+// ----------------------------------
+
+readonly deliveryCharge = computed(() =>
+  this.round(this.subtotal() * 0.02)
+);
+
+readonly handlingCharge = computed(() =>
+  this.round(this.subtotal() * 0.01)
+);
+
+readonly convenienceCharge = computed(() =>
+  this.round(this.subtotal() * 0.01)
+);
+
+readonly packagingCharge = computed(() =>
+  this.round(this.subtotal() * 0.01)
+);
+
+readonly sgstCharge = computed(() =>
+  this.round(this.subtotal() * 0.025)
+);
+
+readonly cgstCharge = computed(() =>
+  this.round(this.subtotal() * 0.025)
+);
+
+
+// ----------------------------------
+// FINAL TOTAL
+// ----------------------------------
+
+readonly total = computed(() => {
+
+  const total =
+    this.subtotal() +
+    this.deliveryCharge() +
+    this.handlingCharge() +
+    this.convenienceCharge() +
+    this.packagingCharge() +
+    this.sgstCharge() +
+    this.cgstCharge();
+
+  return this.round(total);
+});
+
+
+getTotal(): number {
+  return this.total();
+}
+
+// ----------------------------------
+// ROUND MONEY
+// ----------------------------------
+
+private round(value: number): number {
+  return Math.round(value * 100) / 100;
+}
+
 
   addToCart(book: Omit<CartBook, 'quantity'>): void {
 
@@ -152,9 +222,9 @@ export class CartService {
       updatedCart = currentCart.map(item =>
         item.id === book.id
           ? {
-              ...item,
-              quantity: item.quantity + 1
-            }
+            ...item,
+            quantity: item.quantity + 1
+          }
           : item
       );
 
@@ -178,9 +248,9 @@ export class CartService {
     const updatedCart = this.cartSignal().map(item =>
       item.id === id
         ? {
-            ...item,
-            quantity: item.quantity + 1
-          }
+          ...item,
+          quantity: item.quantity + 1
+        }
         : item
     );
 
@@ -193,9 +263,9 @@ export class CartService {
       .map(item =>
         item.id === id
           ? {
-              ...item,
-              quantity: item.quantity - 1
-            }
+            ...item,
+            quantity: item.quantity - 1
+          }
           : item
       )
       .filter(item => item.quantity > 0);
@@ -228,18 +298,18 @@ export class CartService {
     );
   }
 
-   readonly total = computed(() =>
-    this.cartSignal().reduce(
-      (total, item) =>
-        total + (Number(item.price) * item.quantity),
-      0
-    )
-  );
+  //  readonly total = computed(() =>
+  //   this.cartSignal().reduce(
+  //     (total, item) =>
+  //       total + (Number(item.price) * item.quantity),
+  //     0
+  //   )
+  // );
 
 
-  getTotal(): number {
-    return this.total();
-  }
+  // getTotal(): number {
+  //   return this.total();
+  // }
 
 
 

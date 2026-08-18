@@ -11,6 +11,9 @@ import {
   HttpHeaders
 } from '@angular/common/http';
 
+import { CartService } from '../../services/cart';
+
+
 @Component({
   selector: 'app-checkout',
   standalone: true,
@@ -32,12 +35,24 @@ export class Checkout {
 
   deliveryCharge = 0;
 
+  handlingCharge = 0;
+
+  convenienceCharge = 0;
+
+  packagingCharge = 0;
+
+  sgstCharge = 0;
+
+  cgstCharge = 0;
+
   total = 0;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    public cartService: CartService
+
   ) {
 
     this.addressForm = this.fb.group({
@@ -147,28 +162,78 @@ export class Checkout {
   // Calculate total
   // -----------------------------
 
+  // calculateTotal(): void {
+
+  //   this.subtotal =
+  //     this.cartItems.reduce(
+  //       (total, item) =>
+  //         total +
+  //         Number(item.price) *
+  //         Number(item.quantity),
+  //       0
+  //     );
+
+  //   this.deliveryCharge =
+  //     this.subtotal >= 499
+  //       ? 0
+  //       : 49;
+
+  //   this.total =
+  //     this.subtotal +
+  //     this.deliveryCharge;
+
+  // }
+
+
+  // calculateTotal(): void {
+
+  //   this.subtotal =
+  //     this.cartItems.reduce(
+  //       (total, item) =>
+  //         total +
+  //         Number(item.price) *
+  //         Number(item.quantity),
+  //       0
+  //     );
+
+  //   // Delivery charge = 2% of subtotal
+  //   this.deliveryCharge =
+  //     Math.round(this.subtotal * 0.02 * 100) / 100;
+
+  //   // Final total
+  //   this.total =
+  //     Math.round(
+  //       (this.subtotal + this.deliveryCharge) * 100
+  //     ) / 100;
+  // }
+
   calculateTotal(): void {
 
     this.subtotal =
-      this.cartItems.reduce(
-        (total, item) =>
-          total +
-          Number(item.price) *
-          Number(item.quantity),
-        0
-      );
+      this.cartService.subtotal();
 
     this.deliveryCharge =
-      this.subtotal >= 499
-        ? 0
-        : 49;
+      this.cartService.deliveryCharge();
+
+    this.handlingCharge =
+      this.cartService.handlingCharge();
+
+    this.convenienceCharge =
+      this.cartService.convenienceCharge();
+
+    this.packagingCharge =
+      this.cartService.packagingCharge();
+
+    this.sgstCharge =
+      this.cartService.sgstCharge();
+
+    this.cgstCharge =
+      this.cartService.cgstCharge();
 
     this.total =
-      this.subtotal +
-      this.deliveryCharge;
+      this.cartService.total();
 
   }
-
 
   // -----------------------------
   // Form controls

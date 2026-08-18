@@ -161,6 +161,15 @@ import { sql } from './utils/db';
 import { verifyToken } from './utils/auth';
 
 interface CreateOrderRequest {
+  subtotal: number;
+
+  deliveryCharge: number;
+  handlingCharge: number;
+  convenienceCharge: number;
+  packagingCharge: number;
+
+  sgstCharge: number;
+  cgstCharge: number;
   amount: number;
   currency?: string;
   addressId: string;
@@ -225,8 +234,41 @@ export default async (request: Request) => {
     // REQUEST BODY
     // -----------------------------
 
+    // const body =
+    //   await request.json() as CreateOrderRequest;
+
+    // const amount =
+    //   Number(body.amount);
+
+    // const currency =
+    //   body.currency || 'INR';
+
+    // const addressId =
+    //   body.addressId;
+
     const body =
       await request.json() as CreateOrderRequest;
+
+    const subtotal =
+      Number(body.subtotal);
+
+    const deliveryCharge =
+      Number(body.deliveryCharge);
+
+    const handlingCharge =
+      Number(body.handlingCharge);
+
+    const convenienceCharge =
+      Number(body.convenienceCharge);
+
+    const packagingCharge =
+      Number(body.packagingCharge);
+
+    const sgstCharge =
+      Number(body.sgstCharge);
+
+    const cgstCharge =
+      Number(body.cgstCharge);
 
     const amount =
       Number(body.amount);
@@ -325,6 +367,57 @@ export default async (request: Request) => {
         key_secret: keySecret
       });
 
+    const expectedDelivery =
+      Math.round(subtotal * 0.02 * 100) / 100;
+
+    const expectedHandling =
+      Math.round(subtotal * 0.01 * 100) / 100;
+
+    const expectedConvenience =
+      Math.round(subtotal * 0.01 * 100) / 100;
+
+    const expectedPackaging =
+      Math.round(subtotal * 0.01 * 100) / 100;
+
+    const expectedSgst =
+      Math.round(subtotal * 0.025 * 100) / 100;
+
+    const expectedCgst =
+      Math.round(subtotal * 0.025 * 100) / 100;
+
+    const expectedTotal =
+      Math.round(
+        (
+          subtotal +
+          expectedDelivery +
+          expectedHandling +
+          expectedConvenience +
+          expectedPackaging +
+          expectedSgst +
+          expectedCgst
+        ) * 100
+      ) / 100;
+
+    if (
+      Math.abs(deliveryCharge - expectedDelivery) > 0.01 ||
+      Math.abs(handlingCharge - expectedHandling) > 0.01 ||
+      Math.abs(convenienceCharge - expectedConvenience) > 0.01 ||
+      Math.abs(packagingCharge - expectedPackaging) > 0.01 ||
+      Math.abs(sgstCharge - expectedSgst) > 0.01 ||
+      Math.abs(cgstCharge - expectedCgst) > 0.01 ||
+      Math.abs(amount - expectedTotal) > 0.01
+    ) {
+      return Response.json(
+        {
+          success: false,
+          message: 'Invalid order charges or total'
+        },
+        {
+          status: 400
+        }
+      );
+    }
+
     // -----------------------------
     // AMOUNT IN PAISE
     // -----------------------------
@@ -373,41 +466,140 @@ export default async (request: Request) => {
     // SAVE PENDING ORDER
     // -----------------------------
 
+    // const orders = await sql`
+    //   INSERT INTO orderrs (
+    //     user_id,
+    //     address_id,
+    //     order_number,
+    //     total_amount,
+    //     currency,
+    //     payment_status,
+    //     order_status,
+    //     razorpay_order_id,
+    //     created_at,
+    //     updated_at
+    //   )
+    //   VALUES (
+    //     ${authUser.userId},
+    //     ${addressId},
+    //     ${orderNumber},
+    //     ${amount},
+    //     ${currency},
+    //     'pending',
+    //     'pending',
+    //     ${razorpayOrder.id},
+    //     NOW(),
+    //     NOW()
+    //   )
+    //   RETURNING
+    //     id,
+    //     order_number,
+    //     address_id,
+    //     total_amount,
+    //     currency,
+    //     payment_status,
+    //     order_status,
+    //     razorpay_order_id
+    // `;
+
     const orders = await sql`
-      INSERT INTO orderrs (
-        user_id,
-        address_id,
-        order_number,
-        total_amount,
-        currency,
-        payment_status,
-        order_status,
-        razorpay_order_id,
-        created_at,
-        updated_at
-      )
-      VALUES (
-        ${authUser.userId},
-        ${addressId},
-        ${orderNumber},
-        ${amount},
-        ${currency},
-        'pending',
-        'pending',
-        ${razorpayOrder.id},
-        NOW(),
-        NOW()
-      )
-      RETURNING
-        id,
-        order_number,
-        address_id,
-        total_amount,
-        currency,
-        payment_status,
-        order_status,
-        razorpay_order_id
-    `;
+  INSERT INTO orderrs (
+    user_id,
+    address_id,
+    order_number,
+
+    subtotal_amount,
+
+    delivery_percentage,
+    delivery_charge,
+
+    handling_percentage,
+    handling_charge,
+
+    convenience_percentage,
+    convenience_charge,
+
+    packaging_percentage,
+    packaging_charge,
+
+    sgst_percentage,
+    sgst_charge,
+
+    cgst_percentage,
+    cgst_charge,
+
+    total_amount,
+    currency,
+    payment_status,
+    order_status,
+    razorpay_order_id,
+    created_at,
+    updated_at
+  )
+  VALUES (
+    ${authUser.userId},
+    ${addressId},
+    ${orderNumber},
+
+    ${subtotal},
+
+    2,
+    ${deliveryCharge},
+
+    1,
+    ${handlingCharge},
+
+    1,
+    ${convenienceCharge},
+
+    1,
+    ${packagingCharge},
+
+    2.5,
+    ${sgstCharge},
+
+    2.5,
+    ${cgstCharge},
+
+    ${amount},
+    ${currency},
+    'pending',
+    'pending',
+    ${razorpayOrder.id},
+    NOW(),
+    NOW()
+  )
+  RETURNING
+    id,
+    order_number,
+    address_id,
+
+    subtotal_amount,
+
+    delivery_percentage,
+    delivery_charge,
+
+    handling_percentage,
+    handling_charge,
+
+    convenience_percentage,
+    convenience_charge,
+
+    packaging_percentage,
+    packaging_charge,
+
+    sgst_percentage,
+    sgst_charge,
+
+    cgst_percentage,
+    cgst_charge,
+
+    total_amount,
+    currency,
+    payment_status,
+    order_status,
+    razorpay_order_id
+`;
 
     const order =
       orders[0];

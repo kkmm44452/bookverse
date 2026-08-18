@@ -159,31 +159,76 @@ export class PaymentService {
   // Create Razorpay Order
   // ----------------------------------
 
+  // createOrder(
+  //   amount: number,
+  //   addressId: string
+  // ): Observable<CreatePaymentOrderResponse> {
+
+  //   return this.http.post<CreatePaymentOrderResponse>(
+
+  //     '/api/payment/create-order',
+
+  //     {
+  //       amount,
+
+  //       currency: 'INR',
+
+  //       addressId
+  //     },
+
+  //     {
+  //       headers: this.getHeaders()
+  //     }
+
+  //   );
+
+  // }
+
   createOrder(
-    amount: number,
-    addressId: string
-  ): Observable<CreatePaymentOrderResponse> {
+  subtotal: number,
+  deliveryCharge: number,
+  handlingCharge: number,
+  convenienceCharge: number,
+  packagingCharge: number,
+  sgstCharge: number,
+  cgstCharge: number,
+  amount: number,
+  addressId: string
+): Observable<CreatePaymentOrderResponse> {
 
-    return this.http.post<CreatePaymentOrderResponse>(
+  return this.http.post<CreatePaymentOrderResponse>(
 
-      '/api/payment/create-order',
+    '/api/payment/create-order',
 
-      {
-        amount,
+    {
+      subtotal,
 
-        currency: 'INR',
+      deliveryCharge,
 
-        addressId
-      },
+      handlingCharge,
 
-      {
-        headers: this.getHeaders()
-      }
+      convenienceCharge,
 
-    );
+      packagingCharge,
 
-  }
+      sgstCharge,
 
+      cgstCharge,
+
+      amount,
+
+      currency: 'INR',
+
+      addressId
+    },
+
+    {
+      headers: this.getHeaders()
+    }
+
+  );
+
+}
 
   // ----------------------------------
   // Verify Razorpay Payment

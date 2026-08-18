@@ -4,10 +4,7 @@
 
   <div class="checkout-header">
 
-    <button
-      class="back-button"
-      type="button"
-      (click)="backToCart()">
+    <button class="back-button" type="button" (click)="backToCart()">
 
       ← Back to Cart
 
@@ -96,10 +93,7 @@
       </div>
 
 
-      <form
-        [formGroup]="addressForm"
-        (ngSubmit)="continueToPayment()"
-        novalidate>
+      <form [formGroup]="addressForm" (ngSubmit)="continueToPayment()" novalidate>
 
 
         <!-- Name -->
@@ -110,38 +104,32 @@
             Full Name
           </label>
 
-          <input
-            id="fullName"
-            type="text"
-            formControlName="fullName"
-            placeholder="Enter your full name"
-            autocomplete="name"
-            [class.invalid]="
+          <input id="fullName" type="text" formControlName="fullName" placeholder="Enter your full name"
+            autocomplete="name" [class.invalid]="
               fullName.touched &&
               fullName.invalid
-            "
-          />
+            " />
 
           @if (
-            fullName.touched &&
-            fullName.invalid
+          fullName.touched &&
+          fullName.invalid
           ) {
 
-            <small class="error">
+          <small class="error">
 
-              @if (
-                fullName.errors?.['required']
-              ) {
-                Full name is required.
-              }
+            @if (
+            fullName.errors?.['required']
+            ) {
+            Full name is required.
+            }
 
-              @if (
-                fullName.errors?.['minlength']
-              ) {
-                Please enter a valid name.
-              }
+            @if (
+            fullName.errors?.['minlength']
+            ) {
+            Please enter a valid name.
+            }
 
-            </small>
+          </small>
 
           }
 
@@ -156,30 +144,23 @@
             Mobile Number
           </label>
 
-          <input
-            id="mobileNumber"
-            type="tel"
-            maxlength="10"
-            formControlName="mobileNumber"
-            placeholder="9876543210"
-            autocomplete="tel"
-            [class.invalid]="
+          <input id="mobileNumber" type="tel" maxlength="10" formControlName="mobileNumber" placeholder="9876543210"
+            autocomplete="tel" [class.invalid]="
               mobileNumber.touched &&
               mobileNumber.invalid
-            "
-          />
+            " />
 
           @if (
-            mobileNumber.touched &&
-            mobileNumber.invalid
+          mobileNumber.touched &&
+          mobileNumber.invalid
           ) {
 
-            <small class="error">
+          <small class="error">
 
-              Please enter a valid
-              10-digit mobile number.
+            Please enter a valid
+            10-digit mobile number.
 
-            </small>
+          </small>
 
           }
 
@@ -194,26 +175,20 @@
             Address
           </label>
 
-          <input
-            id="addressLine1"
-            type="text"
-            formControlName="addressLine1"
-            placeholder="House / Flat / Building / Street"
-            autocomplete="street-address"
-            [class.invalid]="
+          <input id="addressLine1" type="text" formControlName="addressLine1"
+            placeholder="House / Flat / Building / Street" autocomplete="street-address" [class.invalid]="
               addressLine1.touched &&
               addressLine1.invalid
-            "
-          />
+            " />
 
           @if (
-            addressLine1.touched &&
-            addressLine1.invalid
+          addressLine1.touched &&
+          addressLine1.invalid
           ) {
 
-            <small class="error">
-              Please enter your address.
-            </small>
+          <small class="error">
+            Please enter your address.
+          </small>
 
           }
 
@@ -234,12 +209,7 @@
 
           </label>
 
-          <input
-            id="addressLine2"
-            type="text"
-            formControlName="addressLine2"
-            placeholder="Landmark, Area, etc."
-          />
+          <input id="addressLine2" type="text" formControlName="addressLine2" placeholder="Landmark, Area, etc." />
 
         </div>
 
@@ -254,25 +224,19 @@
               City
             </label>
 
-            <input
-              id="city"
-              type="text"
-              formControlName="city"
-              placeholder="Mumbai"
-              [class.invalid]="
+            <input id="city" type="text" formControlName="city" placeholder="Mumbai" [class.invalid]="
                 city.touched &&
                 city.invalid
-              "
-            />
+              " />
 
             @if (
-              city.touched &&
-              city.invalid
+            city.touched &&
+            city.invalid
             ) {
 
-              <small class="error">
-                City is required.
-              </small>
+            <small class="error">
+              City is required.
+            </small>
 
             }
 
@@ -285,25 +249,19 @@
               State
             </label>
 
-            <input
-              id="state"
-              type="text"
-              formControlName="state"
-              placeholder="Maharashtra"
-              [class.invalid]="
+            <input id="state" type="text" formControlName="state" placeholder="Maharashtra" [class.invalid]="
                 state.touched &&
                 state.invalid
-              "
-            />
+              " />
 
             @if (
-              state.touched &&
-              state.invalid
+            state.touched &&
+            state.invalid
             ) {
 
-              <small class="error">
-                State is required.
-              </small>
+            <small class="error">
+              State is required.
+            </small>
 
             }
 
@@ -320,27 +278,20 @@
             Pincode
           </label>
 
-          <input
-            id="pincode"
-            type="text"
-            maxlength="6"
-            formControlName="pincode"
-            placeholder="400050"
-            autocomplete="postal-code"
-            [class.invalid]="
+          <input id="pincode" type="text" maxlength="6" formControlName="pincode" placeholder="400050"
+            autocomplete="postal-code" [class.invalid]="
               pincode.touched &&
               pincode.invalid
-            "
-          />
+            " />
 
           @if (
-            pincode.touched &&
-            pincode.invalid
+          pincode.touched &&
+          pincode.invalid
           ) {
 
-            <small class="error">
-              Please enter a valid 6-digit pincode.
-            </small>
+          <small class="error">
+            Please enter a valid 6-digit pincode.
+          </small>
 
           }
 
@@ -349,19 +300,16 @@
 
         <!-- Submit -->
 
-        <button
-          type="submit"
-          class="payment-button"
-          [disabled]="loading">
+        <button type="submit" class="payment-button" [disabled]="loading">
 
           @if (loading) {
 
-            Continue...
+          Continue...
 
           } @else {
 
-            Continue to Payment
-            <span>→</span>
+          Continue to Payment
+          <span>→</span>
 
           }
 
@@ -384,46 +332,43 @@
       <div class="summary-items">
 
         @for (
-          item of cartItems;
-          track item.id
+        item of cartItems;
+        track item.id
         ) {
 
-          <div class="summary-item">
+        <div class="summary-item">
 
-            <div class="summary-image">
+          <div class="summary-image">
 
-              @if (item.image) {
+            @if (item.image) {
 
-                <img
-                  [src]="item.image"
-                  [alt]="item.title"
-                />
+            <img [src]="item.image" [alt]="item.title" />
 
-              } @else {
+            } @else {
 
-                📚
+            📚
 
-              }
-
-            </div>
-
-            <div class="summary-details">
-
-              <strong>
-                {{ item.title }}
-              </strong>
-
-              <span>
-                Qty: {{ item.quantity }}
-              </span>
-
-            </div>
-
-            <strong>
-              ₹{{ item.price * item.quantity }}
-            </strong>
+            }
 
           </div>
+
+          <div class="summary-details">
+
+            <strong>
+              {{ item.title }}
+            </strong>
+
+            <span>
+              Qty: {{ item.quantity }}
+            </span>
+
+          </div>
+
+          <strong>
+            ₹{{ item.price * item.quantity }}
+          </strong>
+
+        </div>
 
         }
 
@@ -432,7 +377,6 @@
 
       <div class="summary-divider"></div>
 
-
       <div class="summary-row">
 
         <span>
@@ -440,7 +384,7 @@
         </span>
 
         <strong>
-          ₹{{ subtotal }}
+          ₹{{ subtotal.toFixed(2) }}
         </strong>
 
       </div>
@@ -449,18 +393,76 @@
       <div class="summary-row">
 
         <span>
-          Delivery
+          Delivery (2%)
         </span>
 
-        <strong
-          [class.free]="deliveryCharge === 0">
+        <strong>
+          ₹{{ deliveryCharge.toFixed(2) }}
+        </strong>
 
-          @if (deliveryCharge === 0) {
-            FREE
-          } @else {
-            ₹{{ deliveryCharge }}
-          }
+      </div>
 
+
+      <div class="summary-row">
+
+        <span>
+          Handling (1%)
+        </span>
+
+        <strong>
+          ₹{{ handlingCharge.toFixed(2) }}
+        </strong>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Convenience (1%)
+        </span>
+
+        <strong>
+          ₹{{ convenienceCharge.toFixed(2) }}
+        </strong>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Packaging (1%)
+        </span>
+
+        <strong>
+          ₹{{ packagingCharge.toFixed(2) }}
+        </strong>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          SGST (2.5%)
+        </span>
+
+        <strong>
+          ₹{{ sgstCharge.toFixed(2) }}
+        </strong>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          CGST (2.5%)
+        </span>
+
+        <strong>
+          ₹{{ cgstCharge.toFixed(2) }}
         </strong>
 
       </div>
@@ -476,11 +478,10 @@
         </span>
 
         <strong>
-          ₹{{ total }}
+          ₹{{ total.toFixed(2) }}
         </strong>
 
       </div>
-
 
       <div class="secure-message">
 

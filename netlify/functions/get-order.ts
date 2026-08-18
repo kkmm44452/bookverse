@@ -53,29 +53,69 @@ export default async (request: Request) => {
     // GET ORDER BY DATABASE ID
     // --------------------------------
 
+    // const orders = await sql`
+
+    //   SELECT
+    //     id,
+    //     user_id,
+    //     address_id,
+    //     order_number,
+    //     total_amount,
+    //     currency,
+    //     payment_status,
+    //     order_status,
+    //     razorpay_order_id,
+    //     created_at,
+    //     updated_at,
+    //     subtotal_amount,
+
+    //   FROM orderrs
+
+    //   WHERE id = ${orderId}
+
+    //   LIMIT 1
+
+    // `;
+
     const orders = await sql`
+  SELECT
+    id,
+    user_id,
+    address_id,
+    order_number,
+    total_amount,
+    currency,
+    payment_status,
+    order_status,
+    razorpay_order_id,
+    created_at,
+    updated_at,
+    subtotal_amount,
 
-      SELECT
-        id,
-        user_id,
-        address_id,
-        order_number,
-        total_amount,
-        currency,
-        payment_status,
-        order_status,
-        razorpay_order_id,
-        created_at,
-        updated_at
+    delivery_percentage,
+    delivery_charge,
 
-      FROM orderrs
+    handling_percentage,
+    handling_charge,
 
-      WHERE id = ${orderId}
+    convenience_percentage,
+    convenience_charge,
 
-      LIMIT 1
+    packaging_percentage,
+    packaging_charge,
 
-    `;
+    sgst_percentage,
+    sgst_charge,
 
+    cgst_percentage,
+    cgst_charge
+
+  FROM orderrs
+
+  WHERE id = ${orderId}
+
+  LIMIT 1
+`;
 
     // --------------------------------
     // NOT FOUND

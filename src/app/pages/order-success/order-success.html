@@ -4,9 +4,7 @@
   <!-- LOADING -->
   <!-- ============================= -->
 
-  <div
-    class="loading"
-    *ngIf="loading">
+  <div class="loading" *ngIf="loading">
 
     <div class="success-circle">
       ✓
@@ -27,9 +25,7 @@
   <!-- ERROR -->
   <!-- ============================= -->
 
-  <div
-    class="order-error"
-    *ngIf="!loading && !order">
+  <div class="order-error" *ngIf="!loading && !order">
 
     <div class="success-circle">
       !
@@ -43,9 +39,7 @@
       {{ errorMessage }}
     </p>
 
-    <button
-      type="button"
-      (click)="continueShopping()">
+    <button type="button" (click)="continueShopping()">
 
       Continue Shopping
 
@@ -205,7 +199,7 @@
 
           <span>
 
-            ₹{{ order.total_amount | number:'1.2-2' }}
+            ₹{{ order.subtotal_amount | number:'1.2-2' }}
 
           </span>
 
@@ -219,7 +213,7 @@
 
       <!-- Totals -->
 
-      <div class="totals">
+      <!-- <div class="totals">
 
         <div class="total-row">
 
@@ -266,8 +260,116 @@
 
         </div>
 
-      </div>
+      </div> -->
+      <div class="totals">
 
+        <div class="total-row">
+
+          <span>
+            Subtotal
+          </span>
+
+          <span>
+            ₹{{ order.subtotal_amount | number:'1.2-2' }}
+          </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+          <span>
+            Delivery (2%)
+          </span>
+
+          <span>
+            ₹{{ order.delivery_charge | number:'1.2-2' }}
+          </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+          <span>
+            Handling (1%)
+          </span>
+
+          <span>
+            ₹{{ order.handling_charge | number:'1.2-2' }}
+          </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+          <span>
+            Convenience (1%)
+          </span>
+
+          <span>
+            ₹{{ order.convenience_charge | number:'1.2-2' }}
+          </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+          <span>
+            Packaging (1%)
+          </span>
+
+          <span>
+            ₹{{ order.packaging_charge | number:'1.2-2' }}
+          </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+          <span>
+            SGST (2.5%)
+          </span>
+
+          <span>
+            ₹{{ order.sgst_charge | number:'1.2-2' }}
+          </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+          <span>
+            CGST (2.5%)
+          </span>
+
+          <span>
+            ₹{{ order.cgst_charge | number:'1.2-2' }}
+          </span>
+
+        </div>
+
+
+        <div class="dashed-line"></div>
+
+
+        <div class="grand-total">
+
+          <span>
+            TOTAL
+          </span>
+
+          <strong>
+            ₹{{ order.total_amount | number:'1.2-2' }}
+          </strong>
+
+        </div>
+
+      </div>
 
       <div class="dashed-line"></div>
 
@@ -314,30 +416,21 @@
 
     <div class="actions">
 
-      <button
-        class="print-button"
-        type="button"
-        (click)="printReceipt()">
+      <button class="print-button" type="button" (click)="printReceipt()">
 
         🖨️ Print Receipt
 
       </button>
 
 
-      <button
-        class="orders-button"
-        type="button"
-        (click)="viewOrders()">
+      <button class="orders-button" type="button" (click)="viewOrders()">
 
         📦 View Orders
 
       </button>
 
 
-      <button
-        class="continue-button"
-        type="button"
-        (click)="continueShopping()">
+      <button class="continue-button" type="button" (click)="continueShopping()">
 
         ← Continue Shopping
 

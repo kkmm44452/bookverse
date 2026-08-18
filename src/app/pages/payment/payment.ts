@@ -524,91 +524,268 @@ export class Payment {
   loading = false;
 
   errorMessage = '';
+  // -----------------------------
+  // AMOUNTS
+  // -----------------------------
+
+  subtotal = 0;
+
+  deliveryCharge = 0;
+
+  handlingCharge = 0;
+
+  convenienceCharge = 0;
+
+  packagingCharge = 0;
+
+  sgst = 0;
+
+  cgst = 0;
 
   totalAmount = 0;
 
-  constructor(
-    private paymentService: PaymentService,
-    private cartService: CartService,
-    private router: Router
-  ) {
+constructor(
+  private paymentService: PaymentService,
+  private cartService: CartService,
+  private router: Router
+) {
+  this.loadPaymentTotals();
+}
 
+private loadPaymentTotals(): void {
+
+  this.subtotal =
+    Number(this.cartService.subtotal() || 0);
+
+  this.deliveryCharge =
+    Number(this.cartService.deliveryCharge() || 0);
+
+  this.handlingCharge =
+    Number(this.cartService.handlingCharge() || 0);
+
+  this.convenienceCharge =
+    Number(this.cartService.convenienceCharge() || 0);
+
+  this.packagingCharge =
+    Number(this.cartService.packagingCharge() || 0);
+
+  this.sgst =
+    Number(this.cartService.sgstCharge() || 0);
+
+  this.cgst =
+    Number(this.cartService.cgstCharge() || 0);
+
+  this.totalAmount =
+    Number(this.cartService.total().toFixed(2));
+
+  console.log('Payment totals:', {
+    subtotal: this.subtotal,
+    deliveryCharge: this.deliveryCharge,
+    handlingCharge: this.handlingCharge,
+    convenienceCharge: this.convenienceCharge,
+    packagingCharge: this.packagingCharge,
+    sgst: this.sgst,
+    cgst: this.cgst,
+    totalAmount: this.totalAmount
+  });
+}
+
+  
+
+  // -----------------------------
+  // CALCULATE PAYMENT TOTAL
+  // -----------------------------
+
+  private calculateTotal(): void {
+
+    // Cart total = subtotal
+    this.subtotal =
+      Number(this.cartService.getTotal() || 0);
+
+
+    // Charges
+    this.deliveryCharge =
+      this.subtotal * 0.02;
+
+    this.handlingCharge =
+      this.subtotal * 0.01;
+
+    this.convenienceCharge =
+      this.subtotal * 0.01;
+
+    this.packagingCharge =
+      this.subtotal * 0.01;
+
+    this.sgst =
+      this.subtotal * 0.025;
+
+    this.cgst =
+      this.subtotal * 0.025;
+
+
+    // Final total
     this.totalAmount =
-      this.cartService.getTotal();
+      this.subtotal +
+      this.deliveryCharge +
+      this.handlingCharge +
+      this.convenienceCharge +
+      this.packagingCharge +
+      this.sgst +
+      this.cgst;
+
+
+    // Keep money calculation to 2 decimal places
+    this.totalAmount =
+      Number(this.totalAmount.toFixed(2));
+
+
+    // console.log('Payment calculation:', {
+
+    //   subtotal: this.subtotal,
+
+    //   delivery: this.deliveryCharge,
+
+    //   handling: this.handlingCharge,
+
+    //   convenience: this.convenienceCharge,
+
+    //   packaging: this.packagingCharge,
+
+    //   sgst: this.sgst,
+
+    //   cgst: this.cgst,
+
+    //   total: this.totalAmount
+
+    // });
 
   }
+
+
 
   payNow(): void {
 
-  this.errorMessage = '';
+    this.errorMessage = '';
 
-  if (this.totalAmount <= 0) {
-    this.errorMessage = 'Your cart is empty.';
-    return;
-  }
+    if (this.totalAmount <= 0) {
+      this.errorMessage = 'Your cart is empty.';
+      return;
+    }
 
-  const addressId =
-    localStorage.getItem('bookverse_address_id');
+    const addressId =
+      localStorage.getItem('bookverse_address_id');
 
-  if (!addressId) {
+    if (!addressId) {
 
-    this.errorMessage =
-      'Please add your delivery address before payment.';
+      this.errorMessage =
+        'Please add your delivery address before payment.';
 
-    this.router.navigate(['/checkout']);
+      this.router.navigate(['/checkout']);
 
-    return;
-  }
+      return;
+    }
 
-  this.loading = true;
+    this.loading = true;
 
-  console.log('Payment amount:', this.totalAmount);
-  console.log('Address ID:', addressId);
+    // console.log(
+    //   'Subtotal:',
+    //   this.subtotal
+    // );
 
-  this.paymentService
-    .createOrder(
-      this.totalAmount,
-      addressId
-    )
-    .subscribe({
+    // console.log(
+    //   'Delivery:',
+    //   this.deliveryCharge
+    // );
 
-      next: response => {
+    // console.log(
+    //   'Handling:',
+    //   this.handlingCharge
+    // );
 
-        console.log(
-          'Create payment order response:',
-          response
-        );
+    // console.log(
+    //   'Convenience:',
+    //   this.convenienceCharge
+    // );
 
-        if (!response.success) {
+    // console.log(
+    //   'Packaging:',
+    //   this.packagingCharge
+    // );
+
+    // console.log(
+    //   'SGST:',
+    //   this.sgst
+    // );
+
+    // console.log(
+    //   'CGST:',
+    //   this.cgst
+    // );
+
+    // console.log(
+    //   'Final payment amount:',
+    //   this.totalAmount
+    // );
+
+    // console.log(
+    //   'Address ID:',
+    //   addressId
+    // );
+
+    //console.log('Payment amount:', this.totalAmount);
+    //console.log('Address ID:', addressId);
+
+    this.paymentService
+      .createOrder(
+    this.subtotal,
+    this.deliveryCharge,
+    this.handlingCharge,
+    this.convenienceCharge,
+    this.packagingCharge,
+    this.sgst,
+    this.cgst,
+    this.totalAmount,
+    addressId
+      )
+      .subscribe({
+
+        next: response => {
+
+          // console.log(
+          //   'Create payment order response:',
+          //   response
+          // );
+
+          if (!response.success) {
+
+            this.loading = false;
+
+            this.errorMessage =
+              response.message ||
+              'Unable to create payment order.';
+
+            return;
+          }
+
+          this.openRazorpay(response);
+        },
+
+        error: error => {
+
+          console.error(
+            'Create payment order error:',
+            error
+          );
 
           this.loading = false;
 
           this.errorMessage =
-            response.message ||
-            'Unable to create payment order.';
-
-          return;
+            error?.error?.message ||
+            'Unable to start payment.';
         }
 
-        this.openRazorpay(response);
-      },
-
-      error: error => {
-
-        console.error(
-          'Create payment order error:',
-          error
-        );
-
-        this.loading = false;
-
-        this.errorMessage =
-          error?.error?.message ||
-          'Unable to start payment.';
-      }
-
-    });
-}
+      });
+  }
 
   private openRazorpay(
     response: any
@@ -687,37 +864,46 @@ export class Payment {
 
             return;
           }
- // --------------------------------
-        // PAYMENT SUCCESSFULLY VERIFIED
-        // --------------------------------
+          // --------------------------------
+          // PAYMENT SUCCESSFULLY VERIFIED
+          // --------------------------------
 
-        console.log(
-          'Payment verified successfully:',
-          response
-        );
+          console.log(
+            'Payment verified successfully:',
+            response
+          );
 
-        // Clear cart after successful payment
-        localStorage.removeItem(
-          'bookverse_cart'
-        );
+          // -----------------------------
+          // CLEAR CART
+          // -----------------------------
 
-        // Show success alert
-        alert(
-          '🎉 Payment Successful!\n\n' +
-          'Your order has been placed successfully.'
-        );
+          this.cartService.clearCart();
 
-        // Redirect after alert is closed
-        this.router.navigate(
-          ['/order-success'],
-          {
-            queryParams: {
-              orderId: response.orderId
+
+
+          // Clear cart after successful payment
+          localStorage.removeItem(
+            'bookverse_cart'
+          );
+
+
+          // Show success alert
+          alert(
+            '🎉 Payment Successful!\n\n' +
+            'Your order has been placed successfully.'
+          );
+
+          // Redirect after alert is closed
+          this.router.navigate(
+            ['/order-success'],
+            {
+              queryParams: {
+                orderId: response.orderId
+              }
             }
-          }
-        );
+          );
 
-      },
+        },
 
 
         error: error => {

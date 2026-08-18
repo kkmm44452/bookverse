@@ -9,6 +9,7 @@ import { CartService } from '../services/cart';
   templateUrl: './cart.html',
   styleUrl: './cart.scss'
 })
+
 export class Cart {
 
   public cartService = inject(CartService);

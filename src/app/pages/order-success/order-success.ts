@@ -15,17 +15,53 @@ import {
 import { finalize } from 'rxjs';
 
 interface Order {
+
   id: string;
+
   user_id: string;
+
   address_id: string;
+
   order_number: string;
+
+
+  // -----------------------------
+  // PRICE BREAKDOWN
+  // -----------------------------
+
+  subtotal_amount: string | number;
+
+  delivery_charge: string | number;
+
+  handling_charge: string | number;
+
+  convenience_charge: string | number;
+
+  packaging_charge: string | number;
+
+  sgst_charge: string | number;
+
+  cgst_charge: string | number;
+
   total_amount: string | number;
+
+
+  // -----------------------------
+  // ORDER / PAYMENT
+  // -----------------------------
+
   currency: string;
+
   payment_status: string;
+
   order_status: string;
+
   razorpay_order_id: string;
+
   created_at: string;
+
   updated_at: string;
+
 }
 
 interface OrderResponse {
@@ -61,7 +97,7 @@ export class OrderSuccess implements OnInit {
     private router: Router,
     private http: HttpClient,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -69,10 +105,10 @@ export class OrderSuccess implements OnInit {
 
       this.orderId = params['orderId'] || '';
 
-      console.log(
-        'Order ID from URL:',
-        this.orderId
-      );
+      // console.log(
+      //   'Order ID from URL:',
+      //   this.orderId
+      // );
 
       if (!this.orderId) {
 
@@ -98,10 +134,10 @@ export class OrderSuccess implements OnInit {
     this.loading = true;
     this.errorMessage = '';
 
-    console.log(
-      'Fetching order:',
-      this.orderId
-    );
+    // console.log(
+    //   'Fetching order:',
+    //   this.orderId
+    // );
 
     const token =
       localStorage.getItem('token');

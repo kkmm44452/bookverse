@@ -158,7 +158,13 @@ export const routes: Routes = [
         .then(m => m.BookDetails),
     title: 'Book Details'
   },
-
+  {
+  path: 'book',
+  loadComponent: () =>
+    import('./features/book/book')
+      .then(m => m.Book),
+  title: 'Books'
+},
   // AUTH
   {
     path: 'signup',

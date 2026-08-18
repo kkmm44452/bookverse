@@ -365,7 +365,7 @@ export class SchoolBooks {
 
         author: 'NCERT',
 
-       price: Number(entry.fields.price),
+        price: Number(entry.fields.price),
 
 
         image: this.getCoverImage(entry.fields.coverimage),
@@ -383,7 +383,7 @@ export class SchoolBooks {
         academicYear: this.getOptionalText(entry.fields.academicyear)
       }));
 
-     // console.log('Contentful books:', this.books);
+      // console.log('Contentful books:', this.books);
 
     } catch (err) {
       console.error('Failed to load school books:', err);
@@ -462,10 +462,14 @@ export class SchoolBooks {
   }
 
   viewDetails(book: SchoolBook): void {
-    this.router.navigate([
-      '/book',
-      book.id
-    ]);
+    this.router.navigate(
+      ['/book'],
+      {
+        state: {
+          book
+        }
+      }
+    );
   }
 
   addToCart(book: SchoolBook): void {

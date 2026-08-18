@@ -179,10 +179,10 @@ export class OrderSuccess implements OnInit {
 
         next: (response) => {
 
-          console.log(
-            'Order API response:',
-            response
-          );
+          // console.log(
+          //   'Order API response:',
+          //   response
+          // );
 
           if (
             response &&
@@ -193,10 +193,10 @@ export class OrderSuccess implements OnInit {
             this.order =
               response.order;
 
-            console.log(
-              'ORDER SET IN UI:',
-              this.order
-            );
+            // console.log(
+            //   'ORDER SET IN UI:',
+            //   this.order
+            // );
 
           } else {
 

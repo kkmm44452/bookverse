@@ -1,0 +1,353 @@
+<div class="book-page">
+
+  <!-- Loading -->
+
+  <div class="loading-state" *ngIf="loading">
+
+    <div class="loader"></div>
+
+    <p>
+      Loading book details...
+    </p>
+
+  </div>
+
+
+  <!-- Error -->
+
+  <div
+    class="error-state"
+    *ngIf="!loading && !book">
+
+    <div class="error-icon">
+      !
+    </div>
+
+    <h2>
+      Book Not Found
+    </h2>
+
+    <p>
+      {{ error || 'Unable to find this book.' }}
+    </p>
+
+    <button
+      type="button"
+      (click)="goBack()">
+
+      ← Back to Books
+
+    </button>
+
+  </div>
+
+
+  <!-- Book Details -->
+
+  <ng-container *ngIf="!loading && book">
+
+    <div class="book-container">
+
+
+      <!-- Back Button -->
+
+      <button
+        type="button"
+        class="back-button"
+        (click)="goBack()">
+
+        <span>←</span>
+        Back to Books
+
+      </button>
+
+
+      <!-- Main Book Section -->
+
+      <div class="book-main">
+
+
+        <!-- Book Image -->
+
+        <div class="book-image-wrapper">
+
+          <div class="book-image-card">
+
+            <img
+              [src]="book.image"
+              [alt]="book.title"
+              class="book-image"
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- Book Information -->
+
+        <div class="book-information">
+
+
+          <!-- Badge -->
+
+          <div class="book-badge">
+            NCERT BOOK
+          </div>
+
+
+          <!-- Title -->
+
+          <h1 class="book-title">
+            {{ book.title }}
+          </h1>
+
+
+          <!-- Author -->
+
+          <p class="book-author">
+
+            <span>By</span>
+
+            {{ book.author }}
+
+          </p>
+
+
+          <!-- Price -->
+
+          <div class="book-price">
+
+            ₹{{ book.price | number:'1.2-2' }}
+
+          </div>
+
+
+          <!-- Divider -->
+
+          <div class="divider"></div>
+
+
+          <!-- Book Details -->
+
+          <div class="book-meta">
+
+
+            <div class="meta-item">
+
+              <span class="meta-label">
+                Class
+              </span>
+
+              <span class="meta-value">
+                {{ book.className }}
+              </span>
+
+            </div>
+
+
+            <div class="meta-item">
+
+              <span class="meta-label">
+                Subject
+              </span>
+
+              <span class="meta-value">
+                {{ book.subject }}
+              </span>
+
+            </div>
+
+
+            <div class="meta-item">
+
+              <span class="meta-label">
+                Language
+              </span>
+
+              <span class="meta-value">
+                {{ book.language }}
+              </span>
+
+            </div>
+
+
+            <div
+              class="meta-item"
+              *ngIf="book.academicYear">
+
+              <span class="meta-label">
+                Academic Year
+              </span>
+
+              <span class="meta-value">
+                {{ book.academicYear }}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- Description -->
+
+          <div
+            class="description"
+            *ngIf="book.description">
+
+            <h2>
+              About this book
+            </h2>
+
+            <p>
+              {{ book.description }}
+            </p>
+
+          </div>
+
+
+          <!-- Add To Cart -->
+
+          <button
+            type="button"
+            class="add-cart-button"
+            (click)="addToCart()">
+
+            <span class="cart-icon">
+              🛒
+            </span>
+
+            Add to Cart
+
+          </button>
+
+
+          <!-- Official NCERT Link -->
+
+          <a
+            *ngIf="book.officialUrl"
+            [href]="book.officialUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="official-link">
+
+            View Official NCERT Information
+            <span>↗</span>
+
+          </a>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- Additional Information -->
+
+      <div class="additional-section">
+
+
+        <h2>
+          Book Information
+        </h2>
+
+
+        <div class="information-grid">
+
+
+          <div class="information-card">
+
+            <div class="information-icon">
+              📚
+            </div>
+
+            <div>
+
+              <span>
+                Subject
+              </span>
+
+              <strong>
+                {{ book.subject }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="information-card">
+
+            <div class="information-icon">
+              🎓
+            </div>
+
+            <div>
+
+              <span>
+                Class
+              </span>
+
+              <strong>
+                {{ book.className }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="information-card">
+
+            <div class="information-icon">
+              🌐
+            </div>
+
+            <div>
+
+              <span>
+                Language
+              </span>
+
+              <strong>
+                {{ book.language }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="information-card"
+            *ngIf="book.academicYear">
+
+            <div class="information-icon">
+              📅
+            </div>
+
+            <div>
+
+              <span>
+                Academic Year
+              </span>
+
+              <strong>
+                {{ book.academicYear }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </ng-container>
+
+</div>

@@ -1,121 +1,324 @@
-.header{
+// .header{
 
-width:100%;
+// width:100%;
 
-background:white;
+// background:white;
 
-box-shadow:0 2px 15px rgba(0,0,0,.1);
+// box-shadow:0 2px 15px rgba(0,0,0,.1);
 
-position:sticky;
+// position:sticky;
 
-top:0;
+// top:0;
 
-z-index:100;
+// z-index:100;
 
+// }
+
+
+
+// .top-bar{
+
+// height:70px;
+
+// display:flex;
+
+// align-items:center;
+
+// gap:20px;
+
+// padding:0 20px;
+
+// }
+
+
+
+// .hamburger{
+
+// font-size:28px;
+
+// border:none;
+
+// background:none;
+
+// cursor:pointer;
+
+// }
+
+
+
+// h1{
+
+// color:#764ba2;
+
+// font-size:24px;
+
+// white-space:nowrap;
+
+// }
+
+
+
+// .search{
+
+// flex:1;
+
+// display:flex;
+
+// max-width:600px;
+
+// margin:auto;
+
+// }
+
+
+
+// .search input{
+
+// width:100%;
+
+// padding:12px;
+
+// border-radius:25px 0 0 25px;
+
+// border:1px solid #ddd;
+
+// }
+
+
+
+// .search button{
+
+// border:none;
+
+// background:#764ba2;
+
+// color:white;
+
+// padding:0 20px;
+
+// border-radius:0 25px 25px 0;
+
+// }
+
+
+
+// .profile{
+
+// border:none;
+
+// background:none;
+
+// font-size:25px;
+
+// cursor:pointer;
+
+// }
+
+// .cart,
+// .profile {
+//   position: relative;
+//   width: 42px;
+//   height: 42px;
+//   border: none;
+//   border-radius: 50%;
+//   background: transparent;
+//   cursor: pointer;
+//   font-size: 22px;
+
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   transition: 0.2s ease;
+// }
+
+// .cart:hover,
+// .profile:hover {
+//   background: #f1f5f9;
+//   transform: translateY(-1px);
+// }
+
+// .cart-count {
+//   position: absolute;
+//   top: -3px;
+//   right: -3px;
+
+//   min-width: 19px;
+//   height: 19px;
+
+//   padding: 0 5px;
+
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   border-radius: 50%;
+
+//   background: #ef4444;
+//   color: white;
+
+//   font-size: 11px;
+//   font-weight: 700;
+
+//   border: 2px solid white;
+// }
+
+// @media(max-width:768px){
+
+
+// .top-bar{
+
+// gap:10px;
+
+// padding:10px;
+
+//  justify-content: space-between; 
+
+// }
+
+
+
+// h1{
+
+// font-size:18px;
+
+// }
+
+
+
+// .search{
+
+// position:absolute;
+
+// top:65px;
+
+// left:10px;
+
+// right:10px;
+
+// }
+
+
+
+// .header{
+
+// height:120px;
+
+// }
+
+// .cart,
+//   .profile {
+//     width: 38px;
+//     height: 38px;
+//     font-size: 19px;
+//   }
+
+//   .cart-count {
+//     min-width: 17px;
+//     height: 17px;
+//     font-size: 10px;
+//   }
+
+
+
+
+// }
+
+
+/* ===========================
+   HEADER
+=========================== */
+
+.header {
+  width: 100%;
+  background: white;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
+/* ===========================
+   TOP BAR
+=========================== */
 
-
-.top-bar{
-
-height:70px;
-
-display:flex;
-
-align-items:center;
-
-gap:20px;
-
-padding:0 20px;
-
+.top-bar {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
 }
 
+/* ===========================
+   HAMBURGER
+=========================== */
 
-
-.hamburger{
-
-font-size:28px;
-
-border:none;
-
-background:none;
-
-cursor:pointer;
-
+.hamburger {
+  font-size: 28px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #222;
 }
 
+/* ===========================
+   LOGO
+=========================== */
 
-
-h1{
-
-color:#764ba2;
-
-font-size:24px;
-
-white-space:nowrap;
-
+h1 {
+  color: #764ba2;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
 }
 
+/* ===========================
+   SEARCH
+=========================== */
 
-
-.search{
-
-flex:1;
-
-display:flex;
-
-max-width:600px;
-
-margin:auto;
-
+.search {
+  flex: 1;
+  display: flex;
+  max-width: 650px;
+  margin: auto;
 }
 
-
-
-.search input{
-
-width:100%;
-
-padding:12px;
-
-border-radius:25px 0 0 25px;
-
-border:1px solid #ddd;
-
+.search input {
+  width: 100%;
+  padding: 12px 18px;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-radius: 25px 0 0 25px;
+  outline: none;
+  font-size: 15px;
 }
 
-
-
-.search button{
-
-border:none;
-
-background:#764ba2;
-
-color:white;
-
-padding:0 20px;
-
-border-radius:0 25px 25px 0;
-
+.search input:focus {
+  border-color: #764ba2;
 }
 
-
-
-.profile{
-
-border:none;
-
-background:none;
-
-font-size:25px;
-
-cursor:pointer;
-
+.search button {
+  border: none;
+  background: #764ba2;
+  color: white;
+  padding: 0 22px;
+  border-radius: 0 25px 25px 0;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.2s;
 }
 
-.cart,
-.profile {
+.search button:hover {
+  background: #673ab7;
+}
+
+/* ===========================
+   CART BUTTON
+=========================== */
+
+.cart {
   position: relative;
   width: 42px;
   height: 42px;
@@ -124,102 +327,196 @@ cursor:pointer;
   background: transparent;
   cursor: pointer;
   font-size: 22px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   transition: 0.2s ease;
 }
 
-.cart:hover,
+.cart:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+}
+
+/* Cart badge */
+
+.cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+/* ===========================
+   PROFILE BUTTON
+=========================== */
+
+.profile {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 22px;
+  transition: 0.2s ease;
+  white-space: nowrap;
+  max-width: 180px;
+}
+
 .profile:hover {
   background: #f1f5f9;
   transform: translateY(-1px);
 }
 
-.cart-count {
-  position: absolute;
-  top: -3px;
-  right: -3px;
-
-  min-width: 19px;
-  height: 19px;
-
-  padding: 0 5px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: #ef4444;
-  color: white;
-
-  font-size: 11px;
-  font-weight: 700;
-
-  border: 2px solid white;
+.profile-icon,
+.login-icon {
+  font-size: 22px;
+  flex-shrink: 0;
 }
 
-@media(max-width:768px){
-
-
-.top-bar{
-
-gap:10px;
-
-padding:10px;
-
- justify-content: space-between; 
-
+.profile-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+/* ===========================
+   TABLET
+=========================== */
 
+@media (max-width: 992px) {
+  .top-bar {
+    gap: 12px;
+  }
 
-h1{
+  h1 {
+    font-size: 20px;
+  }
 
-font-size:18px;
-
+  .profile-name {
+    max-width: 100px;
+  }
 }
 
+/* ===========================
+   MOBILE
+=========================== */
 
+@media (max-width: 768px) {
 
-.search{
+  .header {
+    height: 120px;
+  }
 
-position:absolute;
+  .top-bar {
+    height: 70px;
+    padding: 10px;
+    gap: 8px;
+    justify-content: space-between;
+  }
 
-top:65px;
+  .hamburger {
+    font-size: 26px;
+  }
 
-left:10px;
+  h1 {
+    font-size: 18px;
+    flex: 1;
+  }
 
-right:10px;
+  /* Search moves below navbar */
 
-}
+  .search {
+    position: absolute;
+    top: 70px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: none;
+    margin: 0;
+  }
 
+  .search input {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
 
+  .search button {
+    padding: 0 18px;
+  }
 
-.header{
+  /* Cart */
 
-height:120px;
-
-}
-
-.cart,
-  .profile {
+  .cart {
     width: 38px;
     height: 38px;
-    font-size: 19px;
+    font-size: 20px;
   }
 
   .cart-count {
-    min-width: 17px;
-    height: 17px;
-    font-size: 10px;
+    min-width: 16px;
+    height: 16px;
+    font-size: 9px;
   }
 
+  /* Profile */
 
+  .profile {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
 
+  .profile-name {
+    display: none;
+  }
 
+  .profile-icon,
+  .login-icon {
+    font-size: 20px;
+  }
+}
+
+/* ===========================
+   SMALL PHONES
+=========================== */
+
+@media (max-width: 480px) {
+
+  h1 {
+    font-size: 16px;
+  }
+
+  .hamburger {
+    font-size: 24px;
+  }
+
+  .cart,
+  .profile {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .search input {
+    font-size: 13px;
+  }
 }

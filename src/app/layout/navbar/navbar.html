@@ -1,10 +1,8 @@
-<header class="header">
+<!-- <header class="header">
 
 
 <div class="top-bar">
 
-
-<!-- hamburger -->
 @if (!menu.isOpen) {
   <button
     class="hamburger"
@@ -12,25 +10,25 @@
     ☰
   </button>
 }
-
+ -->
 
 
 <!-- logo -->
 
-<h1>
+<!-- <h1>
 
 📚 BookVerse
 
-</h1>
+</h1> -->
 
 
 
 <!-- search -->
 
-<div class="search">
+<!-- <div class="search"> -->
 
 
-<input
+<!-- <input
 
 [(ngModel)]="searchText"
 
@@ -38,10 +36,10 @@
 
 placeholder="Search books..."
 
->
+> -->
 
 
-<button
+<!-- <button
 (click)="searchBooks()">
 
 🔍
@@ -50,7 +48,7 @@ placeholder="Search books..."
 
 
 </div>
-
+ -->
 
 
 <!-- profile/login -->
@@ -68,7 +66,7 @@ class="profile"
 
 <!-- Cart -->
  
-<button
+<!-- <button
   class="cart"
   type="button"
   (click)="openCart()"
@@ -107,7 +105,86 @@ class="profile"
 </button>
 
 
-</div>
+</div> -->
 
+
+<!-- </header> --> 
+
+
+<header class="header">
+
+  <div class="top-bar">
+
+    <!-- Hamburger -->
+    @if (!menu.isOpen) {
+      <button
+        class="hamburger"
+        type="button"
+        (click)="openMenu()"
+        aria-label="Open menu">
+        ☰
+      </button>
+    }
+
+    <!-- Logo -->
+    <h1>📚 BookVerse</h1>
+
+    <!-- Search -->
+    <div class="search">
+      <input
+        [(ngModel)]="searchText"
+        (keydown.enter)="searchBooks()"
+        placeholder="Search books..."
+        aria-label="Search books">
+
+      <button
+        type="button"
+        (click)="searchBooks()"
+        aria-label="Search">
+        🔍
+      </button>
+    </div>
+
+    <!-- Cart -->
+    <button
+      class="cart"
+      type="button"
+      (click)="openCart()"
+      aria-label="Shopping cart">
+
+      🛒
+
+      @if (cart.cartCount() > 0) {
+        <span class="cart-count">
+          {{ cart.cartCount() }}
+        </span>
+      }
+
+    </button>
+
+    <!-- Profile / Login -->
+    <button
+      class="profile"
+      type="button"
+      (click)="openProfile()"
+      aria-label="Profile">
+
+      @if (authService.isLoggedIn()) {
+
+        <span class="profile-icon">👤</span>
+
+        <span class="profile-name">
+          {{ authService.user()?.name }}
+        </span>
+
+      } @else {
+
+        <span class="login-icon">🔐</span>
+
+      }
+
+    </button>
+
+  </div>
 
 </header>

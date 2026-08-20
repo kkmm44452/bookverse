@@ -79,6 +79,15 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface CartItem {
+  book_id: string;
+  title: string;
+  author?: string | null;
+  image_url?: string | null;
+  quantity: number;
+  unit_price: number;
+  total_price: number;
+}
 
 // ----------------------------------
 // Create Payment Order Response
@@ -193,7 +202,9 @@ export class PaymentService {
   sgstCharge: number,
   cgstCharge: number,
   amount: number,
-  addressId: string
+  addressId: string,
+  items: CartItem[]
+
 ): Observable<CreatePaymentOrderResponse> {
 
   return this.http.post<CreatePaymentOrderResponse>(
@@ -219,7 +230,8 @@ export class PaymentService {
 
       currency: 'INR',
 
-      addressId
+      addressId,
+      items
     },
 
     {

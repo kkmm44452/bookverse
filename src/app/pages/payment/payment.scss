@@ -334,3 +334,118 @@
   }
 
 }
+
+/* ------------------------------
+   Internet Connection Card
+------------------------------ */
+
+.network-card {
+  margin: 20px 0;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid;
+  transition: all .3s ease;
+}
+
+.network-card.good {
+  background: #f0fdf4;
+  border-color: #22c55e;
+}
+
+.network-card.warning {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.network-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.network-icon {
+  font-size: 24px;
+}
+
+.status-left h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.status-left p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.status-badge.online {
+  background: #22c55e;
+}
+
+.status-badge.offline {
+  background: #ef4444;
+}
+
+.network-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.network-item {
+  background: rgba(255,255,255,.7);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.network-item label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.network-item span {
+  font-weight: 700;
+}
+
+.warning-box {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(239,68,68,.12);
+  border: 1px solid #ef4444;
+}
+
+.warning-box h4 {
+  margin: 0 0 8px;
+  color: #b91c1c;
+}
+
+.warning-box p {
+  margin: 0 0 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #7f1d1d;
+}
+
+@media (max-width: 480px) {
+  .network-grid {
+    grid-template-columns: 1fr;
+  }
+}

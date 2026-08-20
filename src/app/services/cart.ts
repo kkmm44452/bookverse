@@ -146,65 +146,65 @@ export class CartService {
     )
   );
 
-// ----------------------------------
-// CHARGES
-// ----------------------------------
+  // ----------------------------------
+  // CHARGES
+  // ----------------------------------
 
-readonly deliveryCharge = computed(() =>
-  this.round(this.subtotal() * 0.02)
-);
+  readonly deliveryCharge = computed(() =>
+    this.round(this.subtotal() * 0.02)
+  );
 
-readonly handlingCharge = computed(() =>
-  this.round(this.subtotal() * 0.01)
-);
+  readonly handlingCharge = computed(() =>
+    this.round(this.subtotal() * 0.01)
+  );
 
-readonly convenienceCharge = computed(() =>
-  this.round(this.subtotal() * 0.01)
-);
+  readonly convenienceCharge = computed(() =>
+    this.round(this.subtotal() * 0.01)
+  );
 
-readonly packagingCharge = computed(() =>
-  this.round(this.subtotal() * 0.01)
-);
+  readonly packagingCharge = computed(() =>
+    this.round(this.subtotal() * 0.01)
+  );
 
-readonly sgstCharge = computed(() =>
-  this.round(this.subtotal() * 0.025)
-);
+  readonly sgstCharge = computed(() =>
+    this.round(this.subtotal() * 0.025)
+  );
 
-readonly cgstCharge = computed(() =>
-  this.round(this.subtotal() * 0.025)
-);
-
-
-// ----------------------------------
-// FINAL TOTAL
-// ----------------------------------
-
-readonly total = computed(() => {
-
-  const total =
-    this.subtotal() +
-    this.deliveryCharge() +
-    this.handlingCharge() +
-    this.convenienceCharge() +
-    this.packagingCharge() +
-    this.sgstCharge() +
-    this.cgstCharge();
-
-  return this.round(total);
-});
+  readonly cgstCharge = computed(() =>
+    this.round(this.subtotal() * 0.025)
+  );
 
 
-getTotal(): number {
-  return this.total();
-}
+  // ----------------------------------
+  // FINAL TOTAL
+  // ----------------------------------
 
-// ----------------------------------
-// ROUND MONEY
-// ----------------------------------
+  readonly total = computed(() => {
 
-private round(value: number): number {
-  return Math.round(value * 100) / 100;
-}
+    const total =
+      this.subtotal() +
+      this.deliveryCharge() +
+      this.handlingCharge() +
+      this.convenienceCharge() +
+      this.packagingCharge() +
+      this.sgstCharge() +
+      this.cgstCharge();
+
+    return this.round(total);
+  });
+
+
+  getTotal(): number {
+    return this.total();
+  }
+
+  // ----------------------------------
+  // ROUND MONEY
+  // ----------------------------------
+
+  private round(value: number): number {
+    return Math.round(value * 100) / 100;
+  }
 
 
   addToCart(book: Omit<CartBook, 'quantity'>): void {
@@ -312,7 +312,13 @@ private round(value: number): number {
   // }
 
 
+  // ----------------------------------
+  // GET CART ITEMS
+  // ----------------------------------
 
+  getCartItems(): CartBook[] {
+    return this.cartSignal();
+  }
 
 
   private saveCart(cart: CartBook[]): void {

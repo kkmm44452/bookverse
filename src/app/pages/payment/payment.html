@@ -70,7 +70,6 @@
 
 </section> -->
 
-
 <section class="payment-page">
 
   <div class="payment-card">
@@ -82,9 +81,88 @@
     <h1>Complete Your Payment</h1>
 
     <p class="subtitle">
-      Your order is ready. Complete the payment
-      securely using Razorpay.
+      Your order is ready. Complete the payment securely using Razorpay.
     </p>
+
+    <!-- Internet Connection Card -->
+    <div
+      class="network-card"
+      [class.good]="!networkSlow"
+      [class.warning]="networkSlow">
+
+      <div class="network-header">
+
+        <div class="status-left">
+
+          <span class="network-icon">
+            {{ networkSlow ? '⚠️' : '📶' }}
+          </span>
+
+          <div>
+            <h3>{{ networkStatus }}</h3>
+            <p>{{ networkType }}</p>
+          </div>
+
+        </div>
+
+        <span
+          class="status-badge"
+          [class.online]="isOnline"
+          [class.offline]="!isOnline">
+
+          {{ isOnline ? 'ONLINE' : 'OFFLINE' }}
+
+        </span>
+
+      </div>
+
+      <div class="network-grid">
+
+        <div class="network-item">
+          <label>Connection Type</label>
+          <span>{{ networkType }}</span>
+        </div>
+
+        <div class="network-item">
+          <label>Download Speed</label>
+          <span>{{ networkSpeed }}</span>
+        </div>
+
+        <div class="network-item">
+          <label>Latency (RTT)</label>
+          <span>{{ networkRtt }}</span>
+        </div>
+
+        <div class="network-item">
+          <label>Data Saver</label>
+          <span>{{ saveData ? 'Enabled' : 'Disabled' }}</span>
+        </div>
+
+      </div>
+
+      @if (networkSlow) {
+
+        <div class="warning-box">
+
+          <h4>⚠ Payment Warning</h4>
+
+          <p>
+            Your internet connection is slow. The payment transaction may take
+            longer than usual or appear to be stuck.
+          </p>
+
+          <p>
+            Please do not refresh or close this page until Razorpay completes
+            the payment.
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+    <!-- Amount -->
 
     <div class="amount-box">
 

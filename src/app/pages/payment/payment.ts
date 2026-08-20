@@ -499,7 +499,8 @@
 //   }
 // }
 
-import { Component } from '@angular/core';
+//import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 
@@ -519,11 +520,34 @@ declare const Razorpay: any;
   templateUrl: './payment.html',
   styleUrl: './payment.scss'
 })
-export class Payment {
+
+export class Payment implements OnInit, OnDestroy {
 
   loading = false;
 
   errorMessage = '';
+  networkStatus = 'Checking connection...';
+networkType = 'Unknown';
+networkSpeed = 'Unknown';
+networkRtt = 'Unknown';
+saveData = false;
+isOnline = true;
+networkSlow = false;
+
+private connection: any = null;
+
+private readonly updateConnectionHandler = () => {
+  this.checkInternetConnection();
+};
+
+private readonly onlineHandler = () => {
+  this.checkInternetConnection();
+};
+
+private readonly offlineHandler = () => {
+  this.checkInternetConnection();
+};
+
   // -----------------------------
   // AMOUNTS
   // -----------------------------
@@ -544,53 +568,198 @@ export class Payment {
 
   totalAmount = 0;
 
-constructor(
-  private paymentService: PaymentService,
-  private cartService: CartService,
-  private router: Router
-) {
-  this.loadPaymentTotals();
+  constructor(
+    private paymentService: PaymentService,
+    private cartService: CartService,
+    private router: Router
+  ) {
+    this.loadPaymentTotals();
+  }
+
+  // ----------------------------------
+// LIFECYCLE
+// ----------------------------------
+
+ngOnInit(): void {
+  this.checkInternetConnection();
 }
 
-private loadPaymentTotals(): void {
+ngOnDestroy(): void {
+  window.removeEventListener('online', this.onlineHandler);
+  window.removeEventListener('offline', this.offlineHandler);
 
-  this.subtotal =
-    Number(this.cartService.subtotal() || 0);
-
-  this.deliveryCharge =
-    Number(this.cartService.deliveryCharge() || 0);
-
-  this.handlingCharge =
-    Number(this.cartService.handlingCharge() || 0);
-
-  this.convenienceCharge =
-    Number(this.cartService.convenienceCharge() || 0);
-
-  this.packagingCharge =
-    Number(this.cartService.packagingCharge() || 0);
-
-  this.sgst =
-    Number(this.cartService.sgstCharge() || 0);
-
-  this.cgst =
-    Number(this.cartService.cgstCharge() || 0);
-
-  this.totalAmount =
-    Number(this.cartService.total().toFixed(2));
-
-  console.log('Payment totals:', {
-    subtotal: this.subtotal,
-    deliveryCharge: this.deliveryCharge,
-    handlingCharge: this.handlingCharge,
-    convenienceCharge: this.convenienceCharge,
-    packagingCharge: this.packagingCharge,
-    sgst: this.sgst,
-    cgst: this.cgst,
-    totalAmount: this.totalAmount
-  });
+  this.connection?.removeEventListener?.(
+    'change',
+    this.updateConnectionHandler
+  );
 }
 
-  
+  private loadPaymentTotals(): void {
+
+    this.subtotal =
+      Number(this.cartService.subtotal() || 0);
+
+    this.deliveryCharge =
+      Number(this.cartService.deliveryCharge() || 0);
+
+    this.handlingCharge =
+      Number(this.cartService.handlingCharge() || 0);
+
+    this.convenienceCharge =
+      Number(this.cartService.convenienceCharge() || 0);
+
+    this.packagingCharge =
+      Number(this.cartService.packagingCharge() || 0);
+
+    this.sgst =
+      Number(this.cartService.sgstCharge() || 0);
+
+    this.cgst =
+      Number(this.cartService.cgstCharge() || 0);
+
+    this.totalAmount =
+      Number(this.cartService.total().toFixed(2));
+
+    console.log('Payment totals:', {
+      subtotal: this.subtotal,
+      deliveryCharge: this.deliveryCharge,
+      handlingCharge: this.handlingCharge,
+      convenienceCharge: this.convenienceCharge,
+      packagingCharge: this.packagingCharge,
+      sgst: this.sgst,
+      cgst: this.cgst,
+      totalAmount: this.totalAmount
+    });
+  }
+
+// ----------------------------------
+// CHECK INTERNET CONNECTION
+// ----------------------------------
+
+private checkInternetConnection(): void {
+
+  this.isOnline = navigator.onLine;
+
+  if (!this.isOnline) {
+
+    this.networkStatus = 'No Internet Connection';
+    this.networkType = 'Offline';
+    this.networkSpeed = '0 Mbps';
+    this.networkRtt = '--';
+    this.saveData = false;
+    this.networkSlow = true;
+
+    return;
+  }
+
+  this.connection =
+    (navigator as any).connection ||
+    (navigator as any).mozConnection ||
+    (navigator as any).webkitConnection;
+
+  if (!this.connection) {
+
+    this.networkStatus = 'Internet Connected';
+    this.networkType = 'Unknown';
+    this.networkSpeed = 'Not Supported';
+    this.networkRtt = 'Not Supported';
+    this.saveData = false;
+    this.networkSlow = false;
+
+    return;
+  }
+
+  const effectiveType =
+    this.connection.effectiveType || 'unknown';
+
+  const downlink =
+    this.connection.downlink;
+
+  const rtt =
+    this.connection.rtt;
+
+  this.saveData =
+    !!this.connection.saveData;
+
+  switch (effectiveType) {
+
+    case 'slow-2g':
+      this.networkType = 'Slow 2G';
+      break;
+
+    case '2g':
+      this.networkType = '2G';
+      break;
+
+    case '3g':
+      this.networkType = '3G';
+      break;
+
+    case '4g':
+      this.networkType = '4G';
+      break;
+
+    case '5g':
+      this.networkType = '5G';
+      break;
+
+    default:
+      this.networkType =
+        effectiveType.toUpperCase();
+  }
+
+  this.networkSpeed =
+    downlink
+      ? `${downlink.toFixed(1)} Mbps`
+      : 'Unknown';
+
+  this.networkRtt =
+    rtt
+      ? `${rtt} ms`
+      : 'Unknown';
+
+  this.networkSlow =
+    effectiveType === 'slow-2g' ||
+    effectiveType === '2g' ||
+    effectiveType === '3g' ||
+    (downlink && downlink < 1.5) ||
+    (rtt && rtt > 300);
+
+  this.networkStatus =
+    this.networkSlow
+      ? 'Slow Internet'
+      : 'Good Internet';
+
+  window.removeEventListener(
+    'online',
+    this.onlineHandler
+  );
+
+  window.removeEventListener(
+    'offline',
+    this.offlineHandler
+  );
+
+  window.addEventListener(
+    'online',
+    this.onlineHandler
+  );
+
+  window.addEventListener(
+    'offline',
+    this.offlineHandler
+  );
+
+  this.connection.removeEventListener?.(
+    'change',
+    this.updateConnectionHandler
+  );
+
+  this.connection.addEventListener?.(
+    'change',
+    this.updateConnectionHandler
+  );
+}
 
   // -----------------------------
   // CALCULATE PAYMENT TOTAL
@@ -735,17 +904,28 @@ private loadPaymentTotals(): void {
     //console.log('Payment amount:', this.totalAmount);
     //console.log('Address ID:', addressId);
 
+    const items = this.cartService.getCartItems().map(item => ({
+      book_id: item.id,
+      title: item.title,
+      author: item.author || null,
+      image_url: item.image || null,
+      quantity: item.quantity,
+      unit_price: Number(item.price),
+      total_price: Number(item.price) * item.quantity
+    }));
+
     this.paymentService
       .createOrder(
-    this.subtotal,
-    this.deliveryCharge,
-    this.handlingCharge,
-    this.convenienceCharge,
-    this.packagingCharge,
-    this.sgst,
-    this.cgst,
-    this.totalAmount,
-    addressId
+        this.subtotal,
+        this.deliveryCharge,
+        this.handlingCharge,
+        this.convenienceCharge,
+        this.packagingCharge,
+        this.sgst,
+        this.cgst,
+        this.totalAmount,
+        addressId,
+        items
       )
       .subscribe({
 

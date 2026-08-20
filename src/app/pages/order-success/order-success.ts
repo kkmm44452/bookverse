@@ -14,6 +14,20 @@ import {
 } from '@angular/common/http';
 import { finalize } from 'rxjs';
 
+
+
+interface OrderItem {
+  id: string;
+  book_id: string;
+  title: string;
+  author: string;
+  image_url: string;
+  quantity: number;
+  unit_price: string | number;
+  total_price: string | number;
+  created_at: string;
+}
+
 interface Order {
 
   id: string;
@@ -62,11 +76,21 @@ interface Order {
 
   updated_at: string;
 
+  // API actually returns this
+  items: OrderItem[];
+
+  // Normalized property used by the template
+  order_items: OrderItem[];
+
+
+
+
 }
 
 interface OrderResponse {
   success: boolean;
   order: Order;
+  order_items: OrderItem[];
   message?: string;
 }
 
@@ -183,29 +207,21 @@ export class OrderSuccess implements OnInit {
           //   'Order API response:',
           //   response
           // );
+          if (response && response.success && response.order) {
 
-          if (
-            response &&
-            response.success &&
-            response.order
-          ) {
-
-            this.order =
-              response.order;
-
-            // console.log(
-            //   'ORDER SET IN UI:',
-            //   this.order
-            // );
+            this.order = {
+              ...response.order,
+              order_items:
+                response.order.items?.length
+                  ? response.order.items
+                  : response.order_items || []
+            };
+            console.log('Order:', this.order);
+            console.log('Order Items:', this.order.order_items);
 
           } else {
-
             this.order = null;
-
-            this.errorMessage =
-              response?.message ||
-              'Order details not found.';
-
+            this.errorMessage = response?.message || 'Order details not found.';
           }
 
         },

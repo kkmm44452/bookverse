@@ -1,7 +1,35 @@
 /* =================================
    PAGE
 ================================= */
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
 
+.item-details {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.book-image {
+  width: 48px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.item-name {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name small {
+  color: #666;
+  font-size: 12px;
+}
 .success-page {
 
   min-height: 100vh;

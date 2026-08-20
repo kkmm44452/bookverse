@@ -154,6 +154,7 @@
 // export const config: Config = {
 //   path: '/api/payment/create-order'
 // };
+
 import type { Config } from '@netlify/functions';
 import Razorpay from 'razorpay';
 
@@ -162,17 +163,25 @@ import { verifyToken } from './utils/auth';
 
 interface CreateOrderRequest {
   subtotal: number;
-
   deliveryCharge: number;
   handlingCharge: number;
   convenienceCharge: number;
   packagingCharge: number;
-
   sgstCharge: number;
   cgstCharge: number;
   amount: number;
   currency?: string;
   addressId: string;
+
+  items: {
+    book_id: string;
+    title: string;
+    author?: string;
+    image_url?: string;
+    quantity: number;
+    unit_price: number;
+  }[];
+
 }
 
 export default async (request: Request) => {
@@ -279,6 +288,9 @@ export default async (request: Request) => {
     const addressId =
       body.addressId;
 
+    const items = body.items || [];
+
+
     // -----------------------------
     // VALIDATION
     // -----------------------------
@@ -309,6 +321,38 @@ export default async (request: Request) => {
         }
       );
 
+    }
+
+
+    if (items.length === 0) {
+      return Response.json(
+        {
+          success: false,
+          message: 'Cart is empty'
+        },
+        {
+          status: 400
+        }
+      );
+    }
+
+    for (const item of items) {
+      if (
+        !item.book_id ||
+        !item.title ||
+        Number(item.quantity) <= 0 ||
+        Number(item.unit_price) < 0
+      ) {
+        return Response.json(
+          {
+            success: false,
+            message: 'Invalid cart item'
+          },
+          {
+            status: 400
+          }
+        );
+      }
     }
 
     // -----------------------------
@@ -604,10 +648,111 @@ export default async (request: Request) => {
     const order =
       orders[0];
 
+    // -----------------------------
+    // SAVE ORDER ITEMS
+    // -----------------------------
+
+    for (const item of items) {
+
+      const quantity = Number(item.quantity);
+
+      const unitPrice = Number(item.unit_price);
+
+      const totalPrice =
+        Math.round(quantity * unitPrice * 100) / 100;
+
+      await sql`
+    INSERT INTO orderr_items (
+      order_id,
+      book_id,
+      title,
+      author,
+      image_url,
+      quantity,
+      unit_price,
+      total_price
+    )
+    VALUES (
+      ${order.id},
+      ${item.book_id},
+      ${item.title},
+      ${item.author || null},
+      ${item.image_url || null},
+      ${quantity},
+      ${unitPrice},
+      ${totalPrice}
+    )
+  `;
+    }
+
     console.log(
       'Database order created:',
       order
     );
+
+    //     for (const item of items) {
+
+    //       const quantity =
+    //         Number(item.quantity) || 1;
+
+    //       const unitPrice =
+    //         Number(item.price) || 0;
+
+    //       const totalPrice =
+    //         unitPrice * quantity;
+
+    //       for (const item of items) {
+
+    //   const quantity =
+    //     Number(item.quantity) || 1;
+
+    //   const unitPrice =
+    //     Number(item.price) || 0;
+
+    //   const totalPrice =
+    //     unitPrice * quantity;
+    // for (const item of items) {
+
+    //   const quantity =
+    //     Number(item.quantity) || 1;
+
+    //   const unitPrice =
+    //     Number(item.price) || 0;
+
+    //   const totalPrice =
+    //     Math.round(
+    //       unitPrice * quantity * 100
+    //     ) / 100;
+
+    //   await sql`
+    //     INSERT INTO orderr_items (
+    //       order_id,
+    //       book_id,
+    //       title,
+    //       author,
+    //       image_url,
+    //       quantity,
+    //       unit_price,
+    //       total_price
+    //     )
+    //     VALUES (
+    //       ${order.id},
+    //       ${item.id},
+    //       ${item.title},
+    //       ${item.author},
+    //       ${item.image || null},
+    //       ${quantity},
+    //       ${unitPrice},
+    //       ${totalPrice}
+    //     )
+    //   `;
+
+    // }
+
+    // }
+    //     }
+
+
 
     // -----------------------------
     // RESPONSE

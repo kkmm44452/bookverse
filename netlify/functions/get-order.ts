@@ -144,23 +144,52 @@ export default async (request: Request) => {
     const order =
       orders[0];
 
+    // --------------------------------
+    // GET ORDER ITEMS
+    // --------------------------------
+
+    const items = await sql`
+  SELECT
+    id,
+    book_id,
+    title,
+    author,
+    image_url,
+    quantity,
+    unit_price,
+    total_price,
+    created_at
+  FROM orderr_items
+  WHERE order_id = ${order.id}
+  ORDER BY created_at ASC
+`;
+
 
     console.log(
       'Order fetched:',
       order
     );
 
+    console.log('Order items:', items);
 
     // --------------------------------
     // RESPONSE
     // --------------------------------
 
+    // return Response.json({
+
+    //   success: true,
+
+    //   order
+
+    // });
+
     return Response.json({
-
       success: true,
-
-      order
-
+      order: {
+        ...order,
+        items
+      }
     });
 
 

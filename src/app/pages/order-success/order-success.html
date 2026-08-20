@@ -183,24 +183,26 @@
         </div>
 
 
-        <div class="item-row">
+        <div class="item-row" *ngFor="let item of order.order_items">
 
-          <div class="item-name">
+          <div class="item-details">
 
-            <strong>
-              Book Purchase
-            </strong>
+            <img [src]="item.image_url" [alt]="item.title" class="book-image">
 
-            <small>
-              BOOKVERSE
-            </small>
+            <div class="item-name">
+
+              <strong>{{ item.title }}</strong>
+
+              <small>{{ item.author }}</small>
+
+              <small>Qty: {{ item.quantity }}</small>
+
+            </div>
 
           </div>
 
           <span>
-
-            ₹{{ order.subtotal_amount | number:'1.2-2' }}
-
+            ₹{{ item.total_price | number:'1.2-2' }}
           </span>
 
         </div>
